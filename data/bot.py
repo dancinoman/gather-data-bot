@@ -2,6 +2,7 @@
 import pandas
 import csv
 import time
+import datetime
 
 # Selenium imports
 from selenium import webdriver
@@ -18,18 +19,40 @@ from bs4 import BeautifulSoup
 class GatherData:
 
     data_source = "https://www.restomontreal.ca/s/?restaurants=greater-montreal&lang=en"
+    start_time = time.time()
 
-    def scrape_page(self, page_link: str, page_range: list):
+    def display_progress(self, message: str):
 
-        print('Page is loading...')
+        time_seconds = round(time.time() - self.start_time)
+        time_format = str(datetime.timedelta(seconds=time_seconds))
+        print(f"({time_format}) {message}")
+
+    def create_log(self, name: str, value: str):
+        print("log: ", name, value)
+
+    def initialize_gathering(self, page_link: str, page_range: list):
+
+        # Display progression on terminal
+        self.display_progress('Page is loading...')
+        # Initializing webdriver
         driver = webdriver.Chrome()
         driver.get(page_link)
         time.sleep(3)
 
-        print('Info located ready to fetch...')
         #Using beautiful soup to get the list of restaurants
         soup = BeautifulSoup(driver.page_source, 'html.parser')
         resto_block = soup.find_all("div", class_='search-result')
+
+        #Track number of results
+        num_result_block = soup.find("a", id="tab-restaurants-active")
+        num_restults = num_result_block.find("span").text.replace("(", "").replace(")","")
+
+        self.display_progress(f'Today {num_restults} are available')
+        # Saving infon into log
+        self.create_log('Scraping date: ', datetime.date.today().strftime('%d %B, %Y'))
+        self.create_log('Scraping time: ', datetime.datetime.now().strftime('%H:%M:%S'))
+        self.create_log('Number of results: ', num_restults)
+        self.display_progress('Info located ready to fetch...')
 
         restaurants = []
 
@@ -57,6 +80,9 @@ class GatherData:
                 hash_tags.append(hash.text.strip())
             if i == 2:
                 break
+
+        def run_next_page(self):
+            pass
             #all elements example
             #name = game.find('a', class_='b').text.strip()
 
@@ -103,4 +129,4 @@ class GatherData:
 gathering = GatherData()
 
 # Scrape the page
-gathering.scrape_page(gathering.data_source, [1])
+gathering.initialize_gathering(gathering.data_source, [1])
