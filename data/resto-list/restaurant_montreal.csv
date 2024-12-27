@@ -1,0 +1,151 @@
+id,name,latitude,longitude,address,hash_tags,unique_page
+1,Sawadika Festin Thailandais,45.510376,-73.686589,1800 Boulevard de la Côte-Vertu,"Thai,Szechuan,Vietnamese,Asian,Chinese,Fusion",https://www.restomontreal.ca/resto/sawadika-festin-thailandais-ville-saint-laurent/4724/en/
+2,Moghel Tandoori,45.566606,-73.449138,2770 Boulevard Jacques-Cartier E,"Indian,Halal",https://www.restomontreal.ca/resto/moghel-tandoori-longueuil/3180/en/
+3,Le Poutine Bar,45.559017,-73.862584,4750 Boulevard Ste-Rose,"Casse-Croute (Snack Bar),Poutine,Burgers,Comfort Food,Sandwiches,Pizza",https://www.restomontreal.ca/resto/le-poutine-bar-fabreville/11476/en/
+4,Giorgio,45.724778,-73.507328,950 Montée des Pionniers,"Italian,Pasta,Pizza",https://www.restomontreal.ca/resto/giorgio-terrebonne-lachenaie/9208/en/
+5,Gerry's Delicatessen,45.549319,-73.54166,3982 Rue Ontario E,"Smoked Meat,Deli,Comfort Food,Canadian,Pizza,Pasta",https://www.restomontreal.ca/resto/gerrys-delicatessen-hochelaga-maisonneuve/855/en/
+6,Bistro MM Station Culinaire,45.66603,-73.870012,771A Boulevard Curé-Labelle,"Bistro,International,Fusion,Market,Tartare,Salads",https://www.restomontreal.ca/resto/bistro-mm-station-culinaire-blainville/12581/en/
+7,Anorak - Broue Pub / Brasserie,45.903907,-74.236717,2 Rue Meadowbrook,"BBQ,American,Smokehouse,Comfort Food,Burgers,Poutine",https://www.restomontreal.ca/resto/anorak-broue-pub-brasserie-/15420/en/
+8,Hawgs Deli,45.597894,-73.579216,6795 Rue Jarry E,"Smoked Meat,BBQ,Burgers,Breakfast,Grill,Deli",https://www.restomontreal.ca/resto/hawgs-deli-anjou-st-leonard/896/en/
+9,Namaste Inde - India,45.46151,-73.566969,4230A Rue Wellington,Indian,https://www.restomontreal.ca/resto/namaste-inde-india-verdun/14291/en/
+10,Restaurant Abouda,45.53575,-73.601864,6349 Rue St-Hubert,"Tunisian,Grill,Vegetarian,Vegan Options,Mediterranean",https://www.restomontreal.ca/resto/restaurant-abouda-rosemont-la-petite-patrie/16986/en/
+11,YOSO,45.581187,-73.703911,1595-B Boulevard Des Laurentides,"Creative,Asian,Japanese",https://www.restomontreal.ca/resto/yoso-pont-viau/17334/en/
+12,Restaurant Saké,45.574908,-73.875179,"180, 25e ave.","Japanese,Sushi,Fusion,Grill,Asian",https://www.restomontreal.ca/resto/restaurant-sake-saint-eustache/9098/en/
+13,Resto Bar Brasse-Rires,45.599504,-73.725078,1790 Boulevard des Laurentides,"Pub Food,Poutine,Pasta,Burgers",https://www.restomontreal.ca/resto/resto-bar-brasse-rires-vimont/15047/en/
+14,Solaris,45.486981,-73.635433,5487 Boulevard Décarie,"Sandwiches,Burgers,Salads,Pizza,Café",https://www.restomontreal.ca/resto/solaris-cote-des-neiges/5880/en/
+15,Le Coup Monté,45.738973,-73.448787,467 Rue Notre-Dame E,"French,Market,Bistro,Tartare",https://www.restomontreal.ca/resto/le-coup-monte-repentigny/10329/en/
+16,Nourri au Beurre,45.590201,-73.430579,1052 Rue Lionel-Daunais,"French,Market,Wild Game,Regional",https://www.restomontreal.ca/resto/nourri-au-beurre-boucherville/11995/en/
+17,Chez Doval,45.52055,-73.582675,150 Rue Marie-Anne E,"Portuguese,Grill,Seafood/Fish",https://www.restomontreal.ca/resto/chez-doval-le-plateau/1547/en/
+18,Côba Sushi,45.517068,-73.597802,1124 Avenue Laurier O,"Sushi,Japanese,Asian,Contemporary/Modern,Tapas,Grill",https://www.restomontreal.ca/resto/coba-sushi-mile-end/1522/en/
+19,La Panzeria,45.520861,-73.576626,4084 Rue Saint-Denis,"Italian,Café,Pizza,Pasta,Sandwiches,Desserts & Sweets",https://www.restomontreal.ca/resto/la-panzeria-le-plateau/15036/en/
+20,Aldea,45.519585,-73.584857,4403 Boulevard St-Laurent,"Portuguese,Grill,Mediterranean,Seafood/Fish,Tapas",https://www.restomontreal.ca/resto/aldea-le-plateau/11355/en/
+21,Mikasa Sushi Bar Chiisai,45.592676,-73.669026,3005 Boulevard Concorde E,"Japanese,Sushi",https://www.restomontreal.ca/resto/mikasa-sushi-bar-chiisai-duvernay/3133/en/
+22,Maggie Oakes,45.507589,-73.553029,426 Place Jacques-Cartier,"Market,Steakhouse,Grill,Salads,Burgers,Breakfast",https://www.restomontreal.ca/resto/maggie-oakes-old-montreal/10985/en/
+23,Trattoria La Villetta,45.512535,-73.692958,1898 Boulevard Thimens,"Italian,Pizza,Pasta",https://www.restomontreal.ca/resto/trattoria-la-villetta-ville-saint-laurent/3505/en/
+24,New Mlle Rosa,45.529184,-73.578311,1233 Avenue Mont-Royal E,"Indian,Tapas",https://www.restomontreal.ca/resto/mlle-rosa-le-plateau/18265/en/
+25,Saint Sushi,45.52114,-73.575347,424 Avenue Duluth E,"Sushi,Japanese",https://www.restomontreal.ca/resto/saint-sushi-le-plateau/6343/en/
+26,Bananier,45.469195,-73.541528,8 Place du Commerce,"Thai,Asian,Fusion,Vegetarian",https://www.restomontreal.ca/resto/bananier-verdun/785/en/
+27,Pandora Supper Club,45.576496,-73.713718,579 Boulevard St-Martin O,"Tapas,Sushi,Tartare,Creative",https://www.restomontreal.ca/resto/pandora-supper-club-chomedey/16846/en/
+28,Et Caetera,45.570597,-73.200211,80 Rue St-Mathieu,"French,Mediterranean,Tartare,Mussels",https://www.restomontreal.ca/resto/et-caetera-beloeil/5291/en/
+29,Sushi Taxi,46.540348,-72.753978,932 Promenade du St-Maurice,"Sushi,Asian,Vegetarian,Poke Bowl,Gluten-free Options",https://www.restomontreal.ca/resto/sushi-taxi-shawinigan/12226/en/
+30,Restaurant L'Élan - Parcours du Cerf,45.560712,-73.452331,2500 Boulevard Fernand-Lafontaine,"Breakfast,French,Asian,Fusion,Market",https://www.restomontreal.ca/resto/restaurant-lelan-parcours-du-cerf-longueuil/15239/en/
+31,Toi Moi et Café,45.625558,-73.803936,220 Boulevard Labelle,"Breakfast,Café,Bistro,Healthy,Salads,Sandwiches",https://www.restomontreal.ca/resto/toi-moi-et-cafe-rosemere/6731/en/
+32,Pic Bois Bistro Taverne,45.720627,-73.493919,30 Rue Émile-Despins,"Regional,Bistro,Grill,Creative",https://www.restomontreal.ca/resto/pic-bois-bistro-taverne-/7368/en/
+33,Le Shack Du Pêcheur,45.592131,-73.430894,1052 Rue Lionel-Daunais,"Seafood/Fish,Fish & Chips,Mediterranean,Tapas,Tartare,Mussels",https://www.restomontreal.ca/resto/le-shack-du-pecheur-boucherville/12698/en/
+34,Le Uptown,45.505369,-73.556061,56 Rue Notre Dame O,"African,Grill,Poutine,Sandwiches,Chicken Wings,Gluten-free Options",https://www.restomontreal.ca/resto/le-uptown-old-montreal/17963/en/
+35,Banh Mi,45.581187,-73.703911,1595 Boulevard Des Laurentides,"Asian,Vietnamese,Sandwiches",https://www.restomontreal.ca/resto/banh-mi-/17821/en/
+36,Grigio,45.341206,-73.285246,1265 Rue Douglas,"Italian,Grill,Pasta,Mussels,Gluten-free Options",https://www.restomontreal.ca/resto/grigio-st-jean-sur-richelieu/14079/en/
+37,Kam Shing Van Horne Restaurant,45.494826,-73.637667,4771 Avenue Van Horne,"Chinese,Szechuan,Asian",https://www.restomontreal.ca/resto/kam-shing-van-horne-restaurant-notre-dame-de-grace-ndg/1036/en/
+38,Typhoon Lounge,45.473641,-73.624254,5752 Avenue de Monkland,"Pub Food,Burgers,Poutine,Tartare",https://www.restomontreal.ca/resto/typhoon-lounge-monkland-village/2695/en/
+39,Regina Pizzeria,45.455967,-73.464381,7681 Boulevard Taschereau,"Pizza,Italian,Pasta,Grill,Charcuterie,Gluten-free Options",https://www.restomontreal.ca/resto/regina-pizzeria-brossard/13441/en/
+40,Jacques Cartier Pizza,45.592566,-73.208898,650 Rue Serge-Pepin,"Pizza,Poutine,Burgers,Comfort Food,Pasta,Sandwiches",https://www.restomontreal.ca/resto/jacques-cartier-pizza-beloeil/17160/en/
+41,Restaurant Le Grill,46.342303,-72.543064,350 Rue des Forges,"Steakhouse,Grill,Seafood/Fish,Tartare,Burgers,BBQ",https://www.restomontreal.ca/resto/restaurant-le-grill-trois-rivieres/11169/en/
+42,Le Nil Bleu,45.518435,-73.571195,3706 Rue Saint-Denis,"Ethiopian,African,Exotic,Vegetarian,Healthy,Vegan Options",https://www.restomontreal.ca/resto/le-nil-bleu-le-plateau/1427/en/
+43,Allô mon Coco,45.449438,-73.608902,6817 Boulevard Newman,"Breakfast,Salads,Burgers,Grill,Crêpes,Sandwiches",https://www.restomontreal.ca/resto/allo-mon-coco-lasalle/10348/en/
+44,New Uma Sushi,45.504571,-73.5688,537 Rue Ste-Catherine O,"Japanese,Sushi,Fusion,Asian,Vegetarian",https://www.restomontreal.ca/resto/uma-sushi-downtown/19942/en/
+45,Diane Deli & Grill,45.626255,-73.502052,10941 Rue Notre-Dame E,"Grill,Pizza,Deli,Smoked Meat,Seafood/Fish,Sandwiches",https://www.restomontreal.ca/resto/diane-deli-grill-montreal-east/4557/en/
+46,Sep Lai,45.478448,-73.569608,2601 Rue Centre,"Laotian,Asian,Vegetarian,Vegan Options,Gluten-free Options",https://www.restomontreal.ca/resto/sep-lai-pointe-st-charles/14579/en/
+47,Rizière D'Asie Express,45.325595,-73.736674,529 Boulevard St-Jean Baptiste,"Sushi,Japanese,Vietnamese,Asian,Dumplings,Bubble tea",https://www.restomontreal.ca/resto/riziere-dasie-express-chateauguay/17270/en/
+48,Jacques Cartier Pizza,45.497619,-73.479372,2029 Boulevard Édouard,"Pizza,Poutine,Burgers,Comfort Food,Pasta,Sandwiches",https://www.restomontreal.ca/resto/jacques-cartier-pizza-saint-hubert/1189/en/
+49,Marathon Souvlaki Express,45.540397,-73.749262,3940 Boulevard Notre-Dame,"Greek,Grill,Mediterranean,Salads,Gluten-free Options",https://www.restomontreal.ca/resto/marathon-souvlaki-express-chomedey/10451/en/
+50,Le Surcouf,45.403387,-73.949368,51 Rue Ste-Anne,"French,Creative,Tartare,Gluten-free Options",https://www.restomontreal.ca/resto/le-surcouf-sainte-anne-de-bellevue/2105/en/
+51,Walter Bistro,45.563575,-73.656213,1575 Rue Fleury E,"Bistro,Pasta,Salads,Comfort Food,Pizza,Fish & Chips",https://www.restomontreal.ca/resto/walter-bistro-ahuntsic-cartierville/10770/en/
+52,Au Trait D'Union,45.569633,-73.200356,919 Rue Laurier,"Bistro,Grill,Regional,Sandwiches,Seafood/Fish,Burgers",https://www.restomontreal.ca/resto/au-trait-dunion-beloeil/3656/en/
+53,Randolph Pub Ludique Saint-Jérôme,45.77645,-74.002679,313 Rue St-Georges,"Comfort Food,Burgers,Poutine,Fish & Chips,Salads,Tartare",https://www.restomontreal.ca/resto/randolph-pub-ludique-saint-jerome-saint-jerme/17241/en/
+54,Biru Biru,45.489358,-73.584479,2170 Rue Ste-Catherine O,"Sushi,Japanese,Grill,Seafood/Fish,Asian",https://www.restomontreal.ca/resto/biru-biru-downtown/17335/en/
+55,The Farsides,45.500092,-73.559931,690 Rue Notre-Dame O,"Thai,Hawaiian,Fusion,Grill,Seafood/Fish,Burgers",https://www.restomontreal.ca/resto/the-farsides-old-montreal/13556/en/
+56,Manga Bistro,45.493209,-73.579718,1836A Rue Ste-Catherine O,"Sushi,Japanese,Fusion,Asian",https://www.restomontreal.ca/resto/manga-bistro-downtown/17295/en/
+57,Allô mon Coco,45.494143,-73.656004,5405 Rue des Jockeys,"Breakfast,Salads,Burgers,Grill,Crêpes,Sandwiches",https://www.restomontreal.ca/resto/allo-mon-coco-cote-des-neiges/14764/en/
+58,Brasserie 701,45.50539,-73.557464,701 Côte de la Place d'Armes,"Creative,Eclectic,Charcuterie,International,Breakfast,Fusion",https://www.restomontreal.ca/resto/brasserie-701-old-montreal/2535/en/
+59,Snatch Restaurant,45.521534,-73.589089,4675 Boulevard St-Laurent,"Comfort Food,Burgers,Halal,Poutine,Vegetarian,French",https://www.restomontreal.ca/resto/snatch-restaurant-le-plateau/14069/en/
+60,Ocakbasi Mardin Palace,45.55822,-73.743877,3010 Boulevard St-Martin O,"Turkish,Mediterranean,Middle Eastern,Vegetarian,Grill,Seafood/Fish",https://www.restomontreal.ca/resto/ocakbasi-mardin-palace-chomedey/13703/en/
+61,Siam,45.496602,-73.572865,1325 Boulevard René-Lévesque O,"Thai,Fusion,Asian,Vegetarian,Vegan Options,Gluten-free Options",https://www.restomontreal.ca/resto/siam-downtown/12934/en/
+62,La Belle et La Barbe - Bistro Urbain,45.495238,-73.41007,5961 Boulevard Cousineau,"Bistro,Tartare,Seafood/Fish,Tapas,Grill,Pasta",https://www.restomontreal.ca/resto/la-belle-et-la-barbe-bistro-urbain-saint-hubert/10945/en/
+63,Trattoria Lanni,45.40656,-74.03478,590 Rue St-Charles,"Italian,Pizza,Gluten-free Options",https://www.restomontreal.ca/resto/trattoria-lanni-vaudreuil-dorion/5696/en/
+64,L'Académie,45.597131,-73.562809,7275 Boulevard des Galeries D'Anjou,"Italian,French,Bistro,Tartare,Mussels",https://www.restomontreal.ca/resto/l-academie-anjou-st-leonard/1686/en/
+65,L'Hamburger,45.538508,-73.605931,933 Rue St-Zotique E,"Burgers,American,Poutine,Comfort Food,Canadian,Juice Bar & Smoothies",https://www.restomontreal.ca/resto/lhamburger-rosemont-la-petite-patrie/13928/en/
+66,Paparazzi's,45.594538,-73.78588,338 Boulevard Curé-Labelle,"Italian,Pizza,Pasta",https://www.restomontreal.ca/resto/paparazzi-s-sainte-rose/12384/en/
+67,Stanley,45.49788,-73.571404,1201 Boulevard René-Lévesque O,"Market,International,Seafood/Fish,Tartare,Breakfast,Burgers",https://www.restomontreal.ca/resto/stanley-downtown/16974/en/
+68,Café du Théâtre - Brasserie Française,45.441052,-73.440323,6000 Boulevard de Rome,"French,Regional,Café,Bistro,Breakfast,Tartare",https://www.restomontreal.ca/resto/cafe-du-theatre-brasserie-francaise-brossard/8542/en/
+69,Montreal Kebab,45.50719,-73.552505,138 Rue St-Paul E,"Lebanese,Mediterranean,Vegetarian,Halal,Grill,Middle Eastern",https://www.restomontreal.ca/resto/montreal-kebab-old-montreal/12529/en/
+70,La Vieille Banque,45.614598,-73.786008,205 Boulevard Ste-Rose,"Italian,Mediterranean,Wild Game,Seafood/Fish,Grill,Pasta",https://www.restomontreal.ca/resto/la-vieille-banque-sainte-rose/5172/en/
+71,Le B-38 Sushi et Poke,45.571979,-73.571786,5003 Rue Beaubien E,"Japanese,Sushi,Asian,Poke Bowl,Fusion,Vegetarian",https://www.restomontreal.ca/resto/le-b-38-sushi-et-poke-/12820/en/
+72,Terrasse Nelligan,45.503983,-73.554215,"106 Rue St-Paul O, 5e étage","Grill,Bistro,Charcuterie",https://www.restomontreal.ca/resto/terrasse-nelligan-old-montreal/4647/en/
+73,Skillz Cuisine,45.480046,-73.579956,3544 Rue Notre-Dame O,"Jamaican,Caribbean,Grill,Seafood/Fish",https://www.restomontreal.ca/resto/skillz-cuisine-saint-henri/16469/en/
+74,La Maison Grecque,45.521371,-73.575149,450 Avenue Duluth E,"Greek,Mediterranean,Grill,Tapas,Market,Vegetarian",https://www.restomontreal.ca/resto/la-maison-grecque-le-plateau/1288/en/
+75,Café RICARDO,45.562016,-73.744895,150 Promenade du Centropolis,"Bistro,Breakfast,Regional,Desserts & Sweets,Tartare,Salads",https://www.restomontreal.ca/resto/cafe-ricardo-chomedey/12176/en/
+76,PoutineVille,45.540492,-73.598829,1348 Rue Beaubien E,"Poutine,Burgers,Salads,Sandwiches",https://www.restomontreal.ca/resto/poutineville-rosemont-la-petite-patrie/4789/en/
+77,Salon de thé Chaï Tea Lounge,45.509513,-73.57399,3506 Avenue du Parc,"Tea,Desserts & Sweets,Healthy,Sandwiches,Salads,Vegetarian",https://www.restomontreal.ca/resto/salon-chai-tea-lounge-le-plateau/5841/en/
+78,Silva Grillades,45.538528,-73.510094,177 Rue St-Charles O.,"Steakhouse,Portuguese,Seafood/Fish,Grill",https://www.restomontreal.ca/resto/silva-grillades-longueuil/3437/en/
+79,BRUT. Fabrique Gourmande,45.692751,-73.635875,845 Rue St-Pierre,"Market,Regional,Creative,Pasta,Gluten-free Options",https://www.restomontreal.ca/resto/brut-fabrique-gourmande-terrebonne-lachenaie/14607/en/
+80,Ohana Sushi Vegan,45.523271,-73.583379,330 Avenue Mont-Royal E,"Sushi,Vegan/100% Plant-Based,Vegan Options,Poke Bowl,Healthy,Japanese",https://www.restomontreal.ca/resto/ohana-sushi-vegan-le-plateau/13339/en/
+81,Piri Piri,45.496988,-73.624155,5480 Chemin de la Côte-des-Neiges,"Portuguese,Rotisserie,Grill,Poutine",https://www.restomontreal.ca/resto/piri-piri-cote-des-neiges-cote-des-neiges/11758/en/
+82,Robin des Bois,45.525151,-73.569769,3933 Avenue du Parc la Fontaine,"Café,Market,Comfort Food,Salads,Healthy,Vegetarian",https://www.restomontreal.ca/resto/robin-des-bois-le-plateau/1881/en/
+83,Prima Luna,45.617934,-73.594226,7301 Boulevard Henri Bourassa E,"Italian,Sushi,Szechuan",https://www.restomontreal.ca/resto/prima-luna-/2624/en/
+84,Le Virunga,45.524093,-73.576234,851 Rue Rachel E,"African,Healthy,Grill,Exotic,Gluten-free Options",https://www.restomontreal.ca/resto/virunga-le-plateau/10928/en/
+85,Restaurant Sens,45.568745,-73.44245,1228 Rue Nobel,"Bistro,Regional,French,Tartare,International,Tapas",https://www.restomontreal.ca/resto/restaurant-sens-boucherville/7079/en/
+86,Phuket,45.577392,-73.59806,4673 Rue Jarry E,"Thai,Sushi,Asian,Poke Bowl,Tartare",https://www.restomontreal.ca/resto/phuket-anjou-st-leonard/1816/en/
+87,Lucille's Avenue des Canadiens,45.497072,-73.570399,1065 Rue Drummond,"Seafood/Fish,Grill,Fish & Chips,Tartare,Burgers,Steakhouse",https://www.restomontreal.ca/resto/lucilles-avenue-des-canadiens-downtown/19230/en/
+88,Le Georgia,45.483563,-73.629822,5112 Boulevard Décarie,"Georgian,Russian",https://www.restomontreal.ca/resto/le-georgia-cote-des-neiges/1250/en/
+89,Taiyo Sushi,45.523933,-73.469236,2480 Chemin de Chambly,"Sushi,Fusion,Japanese,Grill,Asian",https://www.restomontreal.ca/resto/taiyo-sushi-longueuil/11967/en/
+90,Makaya Chocolat & Bistro,45.434318,-73.686137,2492 Boulevard St-Joseph,"Chocolaterie,Crêpes,Café,Desserts & Sweets",https://www.restomontreal.ca/resto/makaya-chocolat-bistro-lachine/17848/en/
+91,Sésame,45.47965,-73.5751,141 Avenue Atwater,"Asian,Fusion,Chinese,Japanese,Thai,Vegetarian",https://www.restomontreal.ca/resto/sesame-montreal-southwest/6832/en/
+92,Toqué!,45.502963,-73.561217,900 Place Jean-Paul Riopelle,"Market,Regional,Creative,Contemporary/Modern,French,Tartare",https://www.restomontreal.ca/resto/toque-old-montreal/1443/en/
+93,Kimpo Korean BBQ,45.587192,-73.430514,500 Rue D'Avaugour,"Korean,BBQ,Sushi,Japanese,Chinese,Grill",https://www.restomontreal.ca/resto/kimpo-korean-bbq-boucherville/13984/en/
+94,Gare 422,45.780666,-74.017106,422 Boulevard Monseigneur-Dubois,"Grill,Tartare,Market,Bistro,Burgers,Pasta",https://www.restomontreal.ca/resto/gare-422-saint-jerme/9062/en/
+95,Oeufs & Cie,45.450122,-73.442663,8840 Boulevard Leduc,"Breakfast,Crêpes,Salads,Sandwiches",https://www.restomontreal.ca/resto/oeufs-cie-brossard/5984/en/
+96,Darlington Boire & Manger,45.505294,-73.564158,380 Boulevard René-Lévesque O,"International,Grill,Sandwiches,Salads,Burgers,Pizza",https://www.restomontreal.ca/resto/darlington-boire-manger-downtown/7193/en/
+97,Restaurant Solymar Montreal,45.543636,-73.620003,7610 Rue St-Hubert,"Peruvian,Latin American,Seafood/Fish,Grill,Mussels,Salads",https://www.restomontreal.ca/resto/restaurant-solymar-montreal-villeray-saint-michel/3418/en/
+98,L'Atelier Sushi,45.639268,-73.84178,6 Rue Turgeon,"Sushi,Asian,Fusion,Poke Bowl,Tapas",https://www.restomontreal.ca/resto/latelier-sushi-sainte-therese/13031/en/
+99,Kiyomi,45.561799,-73.745524,145 Promenade du Centropolis,"Tapas,Fusion,Korean,American,Asian",https://www.restomontreal.ca/resto/kiyomi-chomedey/7161/en/
+100,Rumi,45.519202,-73.598398,5198 Rue Hutchison,"Middle Eastern,Moroccan,Turkish,Mediterranean,Persian,Halal",https://www.restomontreal.ca/resto/rumi-mile-end/1982/en/
+101,East Pan Asiatique,45.502746,-73.569205,1250 Boulevard Robert-Bourrassa,"Asian,Chinese,Japanese,Thai,Korean,Ramen",https://www.restomontreal.ca/resto/east-pan-asiatique-downtown/10330/en/
+102,GESO Ristorante,45.495393,-73.582302,1800 Rue Sherbrooke O,"Italian,Pasta,Grill,Market,Vegan Options,Salads",https://www.restomontreal.ca/resto/geso-ristorante-downtown/16798/en/
+103,Dame Tartine,45.623482,-72.945187,1605 Rue St-Antoine,"Breakfast,Crêpes,Salads,Sandwiches,Comfort Food,Market",https://www.restomontreal.ca/resto/dame-tartine-saint-hyacinthe/7246/en/
+104,Rouch Sandwicherie,45.5206,-73.586112,35 avenue du Mont-Royal E,"Sandwiches,Comfort Food",https://www.restomontreal.ca/resto/rouch-sandwicherie-le-plateau/19896/en/
+105,Kimpo Korean BBQ,45.453342,-73.467336,7800 Boulevard Taschereau,"Korean,BBQ,Sushi,Japanese,Chinese,Grill",https://www.restomontreal.ca/resto/kimpo-korean-bbq-brossard/11606/en/
+106,Canard Café,45.552486,-73.540016,4299 Rue Ontario E,"Grilled Cheese,Breakfast,Crêpes,Café,Vegetarian,Sandwiches",https://www.restomontreal.ca/resto/canard-cafe-hochelaga-maisonneuve/14321/en/
+107,Zenbu Sushi,45.532688,-73.719356,5751 Boulevard Gouin O,"Asian,Japanese,Sushi,Thai,Grill,Vegan Options",https://www.restomontreal.ca/resto/zenbu-sushi-/5762/en/
+108,Maison Saint-Paul,45.509171,-73.551902,343 Rue St-Paul E,"Creative,Market,Regional,Vegetarian,Grill,Tapas",https://www.restomontreal.ca/resto/maison-saint-paul-old-montreal/6705/en/
+109,La Perle Vietnamienne,45.605706,-73.731939,2020 Boulevard des Laurentides,"Vietnamese,Asian,Sushi,Japanese,Thai",https://www.restomontreal.ca/resto/la-perle-vietnamienne-vimont/3407/en/
+110,Les Cavistes - Bistro Bar à vin Boutique,45.545777,-73.666213,196 Rue Fleury O,"Bistro,French,Tartare",https://www.restomontreal.ca/resto/les-cavistes-bistro-bar-a-vin-boutique-ahuntsic-cartierville/5978/en/
+111,Restaurant Kampot,45.628657,-73.848455,3375 Avenue des Grandes Tourelles,"Asian,Thai,Cambodian,Laotian,Vietnamese,Gluten-free Options",https://www.restomontreal.ca/resto/restaurant-kampot-boisbriand/15283/en/
+112,Itamea Sushi,45.539791,-73.599993,1283 Rue Beaubien E,"Sushi,Asian,Poke Bowl",https://www.restomontreal.ca/resto/itamea-sushi-rosemont-la-petite-patrie/11898/en/
+113,La Chaudronnée Suisse,45.731654,-73.453244,358 Rue Notre-Dame,"Fondue,Swiss,Crêpes,Raclette",https://www.restomontreal.ca/resto/la-chaudronnee-suisse-repentigny/2507/en/
+114,Sésame,,,305 Rue Ste-Catherine O,"Asian,Fusion,Chinese,Japanese,Thai,Vegetarian",https://www.restomontreal.ca/resto/sesame-quartier-des-spectacles/6833/en/
+115,Ristorante Pizzeria Corneli,45.606015,-73.731297,2015 Boulevard des Laurentides E,"Italian,Pizza,Pasta,Salads,Grill,Mediterranean",https://www.restomontreal.ca/resto/ristorante-pizzeria-corneli-vimont/20048/en/
+116,La Piazza,45.569402,-73.749908,2440 Route des Laurentides,"Italian,Mediterranean,International,Grill,Seafood/Fish,Burgers",https://www.restomontreal.ca/resto/la-piazza-chomedey/12318/en/
+117,Le Rose-Marie,45.527799,-73.549726,1550 Rue Fullum,"Italian,Pasta,Market,Creative,Charcuterie",https://www.restomontreal.ca/resto/le-rose-marie-village-centre-sud/13567/en/
+118,Il Pazzesco,45.600639,-73.577024,7031 Rue Jarry E,"Italian,Pasta,Grill,Seafood/Fish,Pizza,Gluten-free Options",https://www.restomontreal.ca/resto/il-pazzesco-anjou-st-leonard/1498/en/
+119,Bistro GURU,45.517245,-73.568732,3464 Rue Saint-Denis,"Indian,Vegetarian",https://www.restomontreal.ca/resto/bistro-guru-le-plateau/8344/en/
+120,Septembre Bistro Bar,45.569634,-73.200354,919 Rue Laurier,"Grill,Burgers,Sandwiches,Bistro",https://www.restomontreal.ca/resto/septembre-bistro-bar-beloeil/3657/en/
+121,Hang Bar,45.500162,-73.559876,686 Rue Notre Dame O,"Vietnamese,Asian,Fusion,Tartare,Seafood/Fish,Grill",https://www.restomontreal.ca/resto/hang-bar-old-montreal/16694/en/
+122,Avant-Garde Artisans Brasseurs,45.56714,-73.537936,5500 Rue Hochelaga,"Pizza,Urban,Market",https://www.restomontreal.ca/resto/avant-garde-artisans-brasseurs-hochelaga-maisonneuve/14137/en/
+123,Shoji Sushi,45.47909,-73.477701,2035A Rue Victoria,"Japanese,Sushi,Fusion,Grill,Asian,Tartare",https://www.restomontreal.ca/resto/shoji-sushi-/2116/en/
+124,Station Pizza Moderne,45.534219,-73.71654,5393 Boulevard Gouin O,"Italian,Pizza,Pasta,Grill,Salads",https://www.restomontreal.ca/resto/station-pizza-moderne-ahuntsic-cartierville/13584/en/
+125,Gray Collection,45.506112,-73.554094,425 Rue St-Jean-Baptiste Bureau 200,"Italian,Pizza,Pasta,Grill,Salads",https://www.restomontreal.ca/resto/gray-collection-old-montreal/17645/en/
+126,Giorgio,45.625681,-73.806066,257 Boulevard Labelle,"Italian,Pasta,Pizza",https://www.restomontreal.ca/resto/giorgio-/3460/en/
+127,New Restaurant Luce,45.729867,-73.456993,313 Rue Notre-Dame,"Italian,Pizza,Pasta",https://www.restomontreal.ca/resto/restaurant-luce-repentigny/20127/en/
+128,McKibbins Irish Pub,45.51341,-73.571244,3515 Boulevard St Laurent,"Irish,Pub Food,Fish & Chips,Chicken Wings",https://www.restomontreal.ca/resto/mckibbins-irish-pub-le-plateau/3367/en/
+129,Rouge Boeuf,45.718144,-73.696813,2790 Boulevard de la Pinière,"Steakhouse,Grill,Seafood/Fish,Wild Game,Burgers,Tartare",https://www.restomontreal.ca/resto/rouge-boeuf-terrebonne-lachenaie/8996/en/
+130,Vivaldi,45.502836,-73.84069,13071 Boulevard Gouin O,Italian,https://www.restomontreal.ca/resto/vivaldi-pierrefonds-roxboro/983/en/
+131,Soba & Sushi Bar,45.474987,-73.608325,5227 Rue Sherbrooke O,"Sushi,Japanese,Chinese,Szechuan,Bubble tea,Soups",https://www.restomontreal.ca/resto/soba-sushi-bar-cote-des-neiges/5703/en/
+132,Jack Saloon,45.441557,-73.439459,1720 Avenue des Lumières,"Burgers,BBQ,Grill,Steakhouse,Smokehouse,American",https://www.restomontreal.ca/resto/jack-saloon-brossard/6808/en/
+133,La Piazzetta,45.534586,-73.514197,480 Rue St-Charles O,"Pizza,Italian,Salads,Bistro,Mediterranean,Pasta",https://www.restomontreal.ca/resto/la-piazzetta-vieux-longueuil/4338/en/
+134,Umami Ramen & Izakaya,45.531235,-73.612691,6660 Rue Clark,"Vegan Options,Ramen,Japanese,Fusion,Asian,Soups",https://www.restomontreal.ca/resto/umami-ramen-izakaya-/13281/en/
+135,Sushi Taxi,45.891353,-74.152815,100 Avenue de la Gare RR 6,"Sushi,Asian,Vegetarian,Poke Bowl,Gluten-free Options",https://www.restomontreal.ca/resto/sushi-taxi-saint-sauveur/3409/en/
+136,Table 51,45.569375,-73.751282,3035 Boulevard le Carrefour,"Steakhouse,Grill,Comfort Food,Salads,Sandwiches,International",https://www.restomontreal.ca/resto/table-51-chomedey/3318/en/
+137,Vino Rosso,45.520631,-73.710987,5291 Boulevard Henri-Bourassa O,"Italian,Mediterranean,Seafood/Fish,Grill,Pasta,Tartare",https://www.restomontreal.ca/resto/vino-rosso-ville-saint-laurent/1417/en/
+138,Chez BOSS & fils,45.467703,-73.566137,3610 Rue Wellington,"Seafood/Fish,Market,Bistro,Asian,Gluten-free Options",https://www.restomontreal.ca/resto/chez-boss-fils-verdun/9276/en/
+139,Casamigos,45.404179,-73.953649,154 Rue Ste-Anne,"Mexican,Vegetarian,Latin American,Gluten-free Options",https://www.restomontreal.ca/resto/casamigos-sainte-anne-de-bellevue/12314/en/
+140,Boeuf Cochon,45.632685,-73.817788,407 Boulevard Labelle,"Steakhouse,Grill,Burgers,BBQ,Tartare,Poutine",https://www.restomontreal.ca/resto/boeuf-cochon-rosemere/14361/en/
+141,New Restaurant Balam,45.501867,-73.667176,5090 Chemin de la Côte-de-Liesse Local FF-102,"Mexican,Latin American,Gluten-free Options",https://www.restomontreal.ca/resto/restaurant-balam-/19153/en/
+142,Wing Phat,45.572862,-73.601742,4201 Rue Jarry E,"Asian,Thai,Chinese,Vietnamese,Vegetarian,Cambodian",https://www.restomontreal.ca/resto/wing-phat-anjou-st-leonard/6886/en/
+143,Groupe RestosDix30 - Traiteur Corporatif,45.441052,-73.440323,6000 Boulevard Rome,"International,Market,Regional,Healthy,Seafood/Fish,Salads",https://www.restomontreal.ca/resto/groupe-restosdix30-traiteur-corporatif-brossard/14248/en/
+144,Paparmane,45.503819,-73.557719,209 Rue Notre-Dame O,"Tea,Sandwiches,Desserts & Sweets,Vegan Options,Gluten-free Options",https://www.restomontreal.ca/resto/paparmane-old-montreal/17694/en/
+145,Restaurant Lima 14,45.541091,-73.638153,8551 Boulevard St-Laurent,"Peruvian,Latin American,Tapas,Market,Grill,Gluten-free Options",https://www.restomontreal.ca/resto/restaurant-lima-14-parc-extension/14076/en/
+146,Sésame,45.568534,-73.447808,20-C Boulevard de Mortagne,"Asian,Fusion,Chinese,Japanese,Thai,Vegetarian",https://www.restomontreal.ca/resto/sesame-boucherville/7259/en/
+147,Les Cuisiniers,45.577039,-73.330811,1970 Rue Léonard-de-Vinci,"Market,Seafood/Fish,Grill,Steakhouse,Comfort Food,Tartare",https://www.restomontreal.ca/resto/les-cuisiniers-sainte-julie/14469/en/
+148,Frite Alors!,45.522297,-73.57803,433 Rue Rachel E,"Comfort Food,Casse-Croute (Snack Bar),Poutine,Burgers,Sandwiches,Salads",https://www.restomontreal.ca/resto/frite-alors-le-plateau/747/en/
+149,Tostadito café boulangerie,45.580182,-73.581192,5412 Rue Jean-Talon E,"Colombian,Latin American,Breakfast,Café,Bakery,Desserts & Sweets",https://www.restomontreal.ca/resto/tostadito-cafe-boulangerie-anjou-st-leonard/15996/en/
+150,Tomate Basilic,45.650988,-73.512038,12585 Rue Sherbrooke E,"Italian,Pizza,Pasta,Mussels",https://www.restomontreal.ca/resto/tomate-basilic-rdp-pointe-aux-trembles/4247/en/

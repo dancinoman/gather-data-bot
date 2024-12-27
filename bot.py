@@ -1,9 +1,10 @@
 # Basic Imports
-import pandas
+import pandas as pd
 import csv
 import time
 import datetime
 import traceback
+import json
 
 # Selenium imports
 from selenium import webdriver
@@ -21,6 +22,7 @@ import bs4
 class GatherData:
 
     driver = webdriver.Chrome()
+    df_resto = pd.DataFrame()
     data_source = "https://www.restomontreal.ca/s/?restaurants=greater-montreal&lang=en"
     date = datetime.date.today().strftime('%d-%m-%Y')
     hour = datetime.datetime.now().strftime('%H:%M:%S')
@@ -38,7 +40,18 @@ class GatherData:
     def initialize_gathering(self, page_link: str, *args):
 
         try:
-            # Display progression on terminal and write in log
+            # Display info on terminal and write in log
+            with open('version.json', 'r') as f:
+                version_info = json.load(f)
+                major = version_info["major"]
+                minor = version_info["minor"]
+                patch = version_info["patch"]
+                release = version_info["release"]
+                description = version_info["description"]
+
+                self.create_log('INFO', f'Version: {major}.{minor}.{patch}-{release}')
+                self.create_log('INFO', f'Version: {description}')
+
             self.create_log('INFO', 'Page is loading...')
             # Initializing webdriver
             self.driver.get(page_link)
@@ -61,14 +74,14 @@ class GatherData:
             for item in args:
                 if isinstance(item, str):
                     if item == "all":
-                        self.get_data(1, int(num_pages))
+                        self.get_data(1, int(num_pages + 1))
 
 
                 if isinstance(item, (list, tuple)):
                     if len(item) == 1:
                         self.get_data(1, item[0])
                     elif len(item) == 2:
-                        self.get_data(item[0], item[1])
+                        self.get_data(item[0], item[1] + 1)
                     else:
                         self.get_data(0, 0, item)
         except Exception:
@@ -82,7 +95,10 @@ class GatherData:
 
         # Scrape by page
         try:
-            for page_num in range(min_page, max_page + 1):
+            id = 1
+            restaurants = []
+
+            for page_num in range(min_page, max_page):
 
                 # Start scraping content to the instruction page
                 web_link = self.data_source + f"&page={page_num}#{page_num}"
@@ -93,11 +109,10 @@ class GatherData:
                 soup = BeautifulSoup(self.driver.page_source, 'html.parser')
                 resto_block = soup.find_all("div", class_='search-result')
 
-                self.create_log('INFO', 'Starting to fetch...')
-                restaurants = []
+                self.create_log('INFO', f'Starting to fetch on page {page_num}')
 
                 # Scrape all content block
-                for i, resto in enumerate(resto_block, start=1):
+                for i, resto in enumerate(resto_block):
 
                     # From main Div
                     lat = resto.get('data-lat')
@@ -107,22 +122,25 @@ class GatherData:
                     link = resto.find_all('a')
                     resto_link = link[2]
                     unique_page = resto_link.get('href')
-                    name = resto_link.text.strip()
+                    raw_name = resto_link.text.split()
+                    name = " ".join(raw_name)
 
                     # From span
-                    address = resto.find('span', id=f'{i - 1}-searchaddress').text.strip()
+                    address = resto.find('span', id=f'{i}-searchaddress').text.strip()
 
                     # From hash tag
                     hash_div = resto.find('div', class_='color-gray mb5 lh-normal search-cuisine-box')
-                    hash_elements = hash_div.find_all('a')
+                    # Skip if there is no hash tag
+                    if hash_div != None:
+                        hash_elements = hash_div.find_all('a')
 
-                    hash_tags = []
-                    for hash in hash_elements:
-                        hash_tags.append(hash.text.strip())
+                        hash_tags = []
+                        for hash in hash_elements:
+                            hash_tags.append(hash.text.strip())
 
                     restaurants.append(
                         {
-                            "id": i,
+                            "id": id,
                             "name": name,
                             "latitude": lat,
                             "longitude": lon,
@@ -132,18 +150,36 @@ class GatherData:
                         }
                     )
 
-                print(f'Page {page_num} is done')
-                print(len(restaurants))
+                    id += 1
 
-                #TODO remove line below after test
-                break
+                self.create_log('INFO', f'Amount of data in memory is {len(restaurants)} restaurants')
+
+
                 # Stop if reached the last page
-                if page_num == max_page:
+                if page_num == max_page+ 1:
+                    self.create_log('INFO', "Bot's task completed")
                     break
+
+            # Save into csv file
+            self.df_resto = pd.DataFrame(restaurants)
+            self.df_resto.to_csv('data/resto-list/restaurant_montreal.csv', index=False)
+
+            # Starting process of unique page
+            self.get_detailed_page()
+
         except Exception:
             full_trace = traceback.format_exc()
             self.create_log('ERROR', full_trace)
             self.create_log('WARNING', f'Process were interrupted at page {page_num} after {i - 1} element(s) recored')
+
+    def get_detailed_page(self):
+
+        # Go to each personal restaurant's link
+        for personal_page_link in self.df_resto['unique_page']:
+
+            self.driver.get(personal_page_link)
+            time.sleep(6)
+
 
         def run_next_page(self):
             pass
@@ -188,11 +224,12 @@ class GatherData:
         #print('1 page done successfully')
         #driver.quit()
 
+
 #Initialize
 gathering = GatherData()
 
 # Scrape the page
-gathering.initialize_gathering(gathering.data_source, "all")
+gathering.initialize_gathering(gathering.data_source, (1, 3))
 
 # Create a log file
 with open(f"logs/bot_log_{gathering.date}_{gathering.hour}.log", "a") as log_file:
