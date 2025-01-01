@@ -3,6 +3,7 @@ import pandas as pd
 import csv
 import time
 import datetime
+import re
 import traceback
 import json
 
@@ -22,7 +23,6 @@ import bs4
 class GatherData:
 
     driver = webdriver.Chrome()
-    df_resto = pd.DataFrame()
     data_source = "https://www.restomontreal.ca/s/?restaurants=greater-montreal&lang=en"
     date = datetime.date.today().strftime('%d-%m-%Y')
     hour = datetime.datetime.now().strftime('%H:%M:%S')
@@ -171,7 +171,7 @@ class GatherData:
                 except Exception:
                     full_trace = traceback.format_exc()
                     self.create_log('ERROR', full_trace)
-                    self.create_log('WARNING', f'Process were interrupted at page {page_num} after {i} element(s) recored')
+                    self.create_log('WARNING', f'Encountered at page {page_num} after {i} element(s) recorded')
 
             # Execute a range or list of page
             id = 1
@@ -186,9 +186,14 @@ class GatherData:
                     execute_scrape(page, id)
 
             # Save into csv file
-                self.df_resto = pd.DataFrame(self.restaurants)
-                self.df_resto.to_csv('data/resto-list/restaurant_montreal.csv', index=False)
+                df = pd.DataFrame
 
+                df = pd.DataFrame(self.restaurants)
+                df.to_csv('data/resto-list/restaurants.csv', index=False)
+                df = pd.DataFrame(self.detailed_restaurants)
+                df.to_csv('data/resto-list/restaurant_details.csv', index=False)
+                df = pd.DataFrame(self.rating_restaurants)
+                df.to_csv('data/resto-list/restaurant_ratings.csv', index=False)
 
 
     def get_detailed_page(self, link, id_key):
@@ -200,6 +205,8 @@ class GatherData:
 
         amount_of_picture  = detailed_soup.find('a', class_='btn-e-see-photos').text.strip()
         average_price = detailed_soup.find('div', class_='restaurant-price').get('data-tooltip')
+        description = detailed_soup.find('div', class_='aboutus-text').text.strip()
+        affiliated = detailed_soup.find('h3', class_='title-section').text.strip()
         # Get features list
         features_group = detailed_soup.find('div', class_="row mt5 mb5").find_all('span', class_='action-btn-group')
         features = []
@@ -208,27 +215,27 @@ class GatherData:
             features.append(feature.find('span').text.strip())
 
 
-        description = detailed_soup.find('div', class_='aboutus-text').text.strip()
-        print(description)
-        affiliated = detailed_soup.find('h3', class_='title-section').text.strip()
-        #print(affiliated)
 
         average_rating = detailed_soup.find('span', class_='google_rating_bold').text.strip()
         amount_of_rating = detailed_soup.find('a', class_='reviewscard_rating').text.strip()
-        print(average_rating)
+        amount_of_rating = re.findall('\d', amount_of_rating)
 
         self.detailed_restaurants.append(
             {
                 "id_resto": id_key,
                 "amount_pictures": amount_of_picture,
                 "average_price": average_price,
-                "features": ",".join(features)
+                "features": ",".join(features),
+                "affiliated": affiliated,
+                "description" : description
             }
         )
 
         self.rating_restaurants.append(
             {
-                "id_resto": id_key
+                "id_resto": id_key,
+                "average_rating": average_rating,
+                'amount_of_rating': ''.join(amount_of_rating)
             }
         )
 
@@ -238,7 +245,7 @@ class GatherData:
 gathering = GatherData()
 
 # Scrape the page
-gathering.initialize_gathering(gathering.data_source, (1, 3))
+gathering.initialize_gathering(gathering.data_source, [1,3])
 
 # Create a log file
 with open(f"logs/bot_log_{gathering.date}_{gathering.hour}.log", "a") as log_file:
