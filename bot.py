@@ -22,10 +22,11 @@ import bs4
 
 class GatherData:
 
-    driver = webdriver.Chrome()
-    data_source = "https://www.restomontreal.ca/s/?restaurants=greater-montreal&lang=en"
     date = datetime.date.today().strftime('%d-%m-%Y')
     hour = datetime.datetime.now().strftime('%H:%M:%S')
+    driver = webdriver.Chrome()
+    data_source = "https://www.restomontreal.ca/s/?restaurants=greater-montreal&lang=en"
+    id = 1
     all_log_txt = []
     restaurants = []
     detailed_restaurants = []
@@ -34,8 +35,11 @@ class GatherData:
 
     def create_log(self, status: str, value: str):
 
+        # Register time
+        date = datetime.date.today().strftime('%d-%m-%Y')
+        hour = datetime.datetime.now().strftime('%H:%M:%S')
         # Create readable log
-        log_info = f"[{self.date} {self.hour}] {status}: {value}"
+        log_info = f"[{date} {hour}] {status}: {value}"
         print(log_info)
         # Prepare text to save in file
         self.all_log_txt.append(log_info)
@@ -79,7 +83,6 @@ class GatherData:
                     if item == "all":
                         self.get_data(1, int(num_pages + 1))
 
-
                 if isinstance(item, (list, tuple)):
                     if len(item) == 1:
                         self.get_data(1, item[0])
@@ -99,27 +102,25 @@ class GatherData:
 
     def get_data(self, min_page: int, max_page: int, pages = None):
 
-
         # Scrape by page
+            def execute_scrape(page_num):
 
 
-            def execute_scrape(page_num, id):
+                # Start scraping content to the instruction page
+                web_link = self.data_source + f"&page={page_num}#{page_num}"
+                self.driver.get(web_link)
+                time.sleep(3)
 
-                try:
-                    # Start scraping content to the instruction page
-                    web_link = self.data_source + f"&page={page_num}#{page_num}"
-                    self.driver.get(web_link)
-                    time.sleep(3)
+                #Using beautiful soup to get the list of restaurants
+                soup = BeautifulSoup(self.driver.page_source, 'html.parser')
+                resto_block = soup.find_all("div", class_='search-result')
 
-                    #Using beautiful soup to get the list of restaurants
-                    soup = BeautifulSoup(self.driver.page_source, 'html.parser')
-                    resto_block = soup.find_all("div", class_='search-result')
+                self.create_log('INFO', f'Starting to fetch on page {page_num}')
 
-                    self.create_log('INFO', f'Starting to fetch on page {page_num}')
+                # Scrape all content block
 
-                    # Scrape all content block
-                    for i, resto in enumerate(resto_block):
-
+                for i, resto in enumerate(resto_block):
+                    try:
                         # From main Div
                         lat = resto.get('data-lat')
                         lon = resto.get('data-lon')
@@ -146,7 +147,7 @@ class GatherData:
 
                         self.restaurants.append(
                             {
-                                "id": id,
+                                "id": self.id,
                                 "name": name,
                                 "latitude": lat,
                                 "longitude": lon,
@@ -157,73 +158,90 @@ class GatherData:
                         )
 
                         # Get details of in unique page for restaurant
-                        self.get_detailed_page(unique_page, id)
-
-                        id += 1
-
+                        self.get_detailed_page(unique_page, self.id)
                         self.create_log('INFO', f'{len(self.restaurants)} - data')
 
-
+                        self.id += 1
                         # Stop if reached the last page
                         if page_num == max_page+ 1:
                             self.create_log('INFO', "Bot's task completed")
                             break
-                except Exception:
-                    full_trace = traceback.format_exc()
-                    self.create_log('ERROR', full_trace)
-                    self.create_log('WARNING', f'Encountered at page {page_num} after {i} element(s) recorded')
+
+                    except Exception:
+                        full_trace = traceback.format_exc()
+                        self.record_data()
+                        self.create_log('ERROR', full_trace)
+                        self.create_log('WARNING', f'Encountered at page {page_num} after {len(self.restaurants)} element(s) recorded')
+                        self.create_log('INFO', f"Got issue with id: {self.id}")
+                        self.id += 1
+                        continue
+
+
 
             # Execute a range or list of page
-            id = 1
-
             if max_page != 0:
 
                 for page_num in range(min_page, max_page):
-                    execute_scrape(page_num, id)
+                    execute_scrape(page_num)
 
             elif pages is not None:
                 for page in pages:
-                    execute_scrape(page, id)
+                    execute_scrape(page)
 
-            # Save into csv file
-                df = pd.DataFrame
-
-                df = pd.DataFrame(self.restaurants)
-                df.to_csv('data/resto-list/restaurants.csv', index=False)
-                df = pd.DataFrame(self.detailed_restaurants)
-                df.to_csv('data/resto-list/restaurant_details.csv', index=False)
-                df = pd.DataFrame(self.rating_restaurants)
-                df.to_csv('data/resto-list/restaurant_ratings.csv', index=False)
-
+            self.record_data()
 
     def get_detailed_page(self, link, id_key):
 
+        def try_element_exist(soup, element, class_name):
+            try:
+                return soup.find(element, class_=class_name)
+            except Exception as e:
+                return None
         self.driver.get(link)
         time.sleep(3)
         # Get page soup
         detailed_soup = BeautifulSoup(self.driver.page_source, 'html.parser')
 
-        amount_of_picture  = detailed_soup.find('a', class_='btn-e-see-photos').text.strip()
+        #################### DETAILS ####################
         average_price = detailed_soup.find('div', class_='restaurant-price').get('data-tooltip')
         description = detailed_soup.find('div', class_='aboutus-text').text.strip()
-        affiliated = detailed_soup.find('h3', class_='title-section').text.strip()
+
+        amount_of_picture  = try_element_exist(detailed_soup, 'a','btn-e-see-photos')
+        # Filter out the number of picture
+        if amount_of_picture is not None:
+            amount_of_picture = re.findall('\d', amount_of_picture.text)
+
+        # Get affiliated restaurants
+        affiliated_group = try_element_exist(detailed_soup, 'div','noborder carousel-cell carousel-affiliated lg1ppp')
+        affiliated = []
+        if affiliated_group is not None:
+            for aff in affiliated_group:
+                print(aff.get('href'))
+
         # Get features list
-        features_group = detailed_soup.find('div', class_="row mt5 mb5").find_all('span', class_='action-btn-group')
+        features_group = try_element_exist(detailed_soup, 'div', "row mt5 mb5")
         features = []
-
-        for feature in features_group:
-            features.append(feature.find('span').text.strip())
-
+        if features_group is not None:
+            features_group.find_all('span', class_='action-btn-group')
 
 
-        average_rating = detailed_soup.find('span', class_='google_rating_bold').text.strip()
+            for feature in features_group:
+                features.append(feature.text.strip())
+
+        #################### RATINGS ####################
+        average_rating = try_element_exist(detailed_soup, 'span', 'google_rating_bold')
+        if average_rating is not None: average_rating = average_rating.text.strip()
+        else: average_rating = None
+
         amount_of_rating = detailed_soup.find('a', class_='reviewscard_rating').text.strip()
+        # Filter out the number of rating
         amount_of_rating = re.findall('\d', amount_of_rating)
 
+        #################### RECORD ####################
         self.detailed_restaurants.append(
             {
                 "id_resto": id_key,
-                "amount_pictures": amount_of_picture,
+                "amount_pictures": "".join(amount_of_picture),
                 "average_price": average_price,
                 "features": ",".join(features),
                 "affiliated": affiliated,
@@ -239,13 +257,24 @@ class GatherData:
             }
         )
 
+    def record_data(self):
+        # Save into csv file
+        df = pd.DataFrame
+
+        df = pd.DataFrame(self.restaurants)
+        df.to_csv('data/resto-list/restaurants.csv', index=False)
+        df = pd.DataFrame(self.detailed_restaurants)
+        df.to_csv('data/resto-list/restaurant_details.csv', index=False)
+        df = pd.DataFrame(self.rating_restaurants)
+        df.to_csv('data/resto-list/restaurant_ratings.csv', index=False)
+
 
 
 #Initialize
 gathering = GatherData()
 
 # Scrape the page
-gathering.initialize_gathering(gathering.data_source, [1,3])
+gathering.initialize_gathering(gathering.data_source, [1, 3])
 
 # Create a log file
 with open(f"logs/bot_log_{gathering.date}_{gathering.hour}.log", "a") as log_file:
