@@ -19,7 +19,8 @@ import chromedriver_binary
 
 from bs4 import BeautifulSoup
 import bs4
-
+#TODO fix when only one element used with a list to indicate the number of page
+#TODO fix when an int is used to indicate the number of page instead is used to indicate the number of restaurant to scrape
 class GatherData:
 
     date = datetime.date.today().strftime('%d-%m-%Y')
@@ -31,6 +32,7 @@ class GatherData:
     restaurants = []
     detailed_restaurants = []
     rating_restaurants = []
+    comments = []
     start_time = time.time()
 
     def create_log(self, status: str, value: str):
@@ -144,7 +146,7 @@ class GatherData:
                             hash_tags = []
                             for hash in hash_elements:
                                 hash_tags.append(hash.text.strip())
-
+                    #################### RECORD ####################
                         self.restaurants.append(
                             {
                                 "id": self.id,
@@ -197,6 +199,13 @@ class GatherData:
                 return soup.find(element, class_=class_name)
             except Exception as e:
                 return None
+
+        def extract_soup(elements):
+            this_list = []
+            for element in elements:
+                this_list.append(element.text.strip())
+            return this_list
+
         self.driver.get(link)
         time.sleep(3)
         # Get page soup
@@ -211,22 +220,12 @@ class GatherData:
         if amount_of_picture is not None:
             amount_of_picture = re.findall('\d', amount_of_picture.text)
 
-        # Get affiliated restaurants
-        affiliated_group = try_element_exist(detailed_soup, 'div','noborder carousel-cell carousel-affiliated lg1ppp')
-        affiliated = []
-        if affiliated_group is not None:
-            for aff in affiliated_group:
-                print(aff.get('href'))
-
         # Get features list
         features_group = try_element_exist(detailed_soup, 'div', "row mt5 mb5")
         features = []
         if features_group is not None:
             features_group.find_all('span', class_='action-btn-group')
-
-
-            for feature in features_group:
-                features.append(feature.text.strip())
+            features = extract_soup(features)
 
         #################### RATINGS ####################
         average_rating = try_element_exist(detailed_soup, 'span', 'google_rating_bold')
@@ -236,6 +235,27 @@ class GatherData:
         amount_of_rating = detailed_soup.find('a', class_='reviewscard_rating').text.strip()
         # Filter out the number of rating
         amount_of_rating = re.findall('\d', amount_of_rating)
+        #################### COMMENTS###################
+
+        # Check for at least one comment exist
+        customer_rating_test = try_element_exist(detailed_soup, 'span', 'icon-box wider ratings border-good icon-dark icon-circle text-thick')
+
+        customer_rating = []
+        customer_comment = []
+        customer_rating_date = []
+        if customer_rating_test is not None:
+            customer_ratings = detailed_soup.find_all('div', class_='pull-right')
+            for rating in customer_ratings[:-1]:
+                if rating.find('span') is not None:
+                    customer_rating.append(rating.find('span').text.strip())
+
+
+            customer_comments = detailed_soup.find_all('p', class_='mt20 mb20 reviews-desc')
+            customer_rating_dates = detailed_soup.find_all('span', class_='review-date')
+
+            customer_comment = extract_soup(customer_comments)
+            customer_rating_date = extract_soup(customer_rating_dates)
+
 
         #################### RECORD ####################
         self.detailed_restaurants.append(
@@ -244,7 +264,6 @@ class GatherData:
                 "amount_pictures": "".join(amount_of_picture),
                 "average_price": average_price,
                 "features": ",".join(features),
-                "affiliated": affiliated,
                 "description" : description
             }
         )
@@ -257,16 +276,27 @@ class GatherData:
             }
         )
 
+        for i in range(len(customer_rating)):
+            self.comments.append(
+                {
+                    "id_resto": id_key,
+                    "customer_rating": customer_rating[i],
+                    "customer_comment": customer_comment[i],
+                    "customer_rating_date": customer_rating_date[i]
+                }
+            )
+
     def record_data(self):
         # Save into csv file
-        df = pd.DataFrame
-
         df = pd.DataFrame(self.restaurants)
         df.to_csv('data/resto-list/restaurants.csv', index=False)
         df = pd.DataFrame(self.detailed_restaurants)
         df.to_csv('data/resto-list/restaurant_details.csv', index=False)
         df = pd.DataFrame(self.rating_restaurants)
         df.to_csv('data/resto-list/restaurant_ratings.csv', index=False)
+        df = pd.DataFrame(self.comments)
+        df.to_csv('data/resto-list/restaurant_comments.csv', index=False)
+
 
 
 
@@ -274,7 +304,7 @@ class GatherData:
 gathering = GatherData()
 
 # Scrape the page
-gathering.initialize_gathering(gathering.data_source, [1, 3])
+gathering.initialize_gathering(gathering.data_source, 'all')
 
 # Create a log file
 with open(f"logs/bot_log_{gathering.date}_{gathering.hour}.log", "a") as log_file:
