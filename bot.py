@@ -83,7 +83,7 @@ class GatherData:
             for item in args:
                 if isinstance(item, str):
                     if item == "all":
-                        self.get_data(1, int(num_pages + 1))
+                        self.get_data(1, int(num_pages) + 1)
 
                 if isinstance(item, (list, tuple)):
                     if len(item) == 1:
