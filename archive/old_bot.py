@@ -1,6 +1,4 @@
 # Basic Imports
-import os
-import requests
 import pandas as pd
 import csv
 import time
@@ -19,22 +17,18 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support import expected_conditions as ec
 import chromedriver_binary
 
-# BeautifulSoup
 from bs4 import BeautifulSoup
 import bs4
-
 #TODO fix when only one element used with a list to indicate the number of page
 #TODO fix when an int is used to indicate the number of page instead is used to indicate the number of restaurant to scrape
-#TODO fix no longer use webdriver
-#TODO generate new data filename differently
 class GatherData:
 
     date = datetime.date.today().strftime('%d-%m-%Y')
     hour = datetime.datetime.now().strftime('%H:%M:%S')
+    driver = webdriver.Chrome()
     data_source = "https://www.restomontreal.ca/s/?restaurants=greater-montreal&lang=en"
     id = 1
     all_log_txt = []
-    driver = webdriver.Chrome()
     restaurants = []
     detailed_restaurants = []
     rating_restaurants = []
@@ -68,7 +62,7 @@ class GatherData:
                 self.create_log('INFO', f'Version: {description}')
 
             self.create_log('INFO', 'Page is loading...')
-            # Initializing web driver
+            # Initializing webdriver
             self.driver.get(page_link)
             time.sleep(3)
 
@@ -112,6 +106,7 @@ class GatherData:
 
         # Scrape by page
             def execute_scrape(page_num):
+
 
                 # Start scraping content to the instruction page
                 web_link = self.data_source + f"&page={page_num}#{page_num}"
@@ -240,7 +235,7 @@ class GatherData:
         amount_of_rating = detailed_soup.find('a', class_='reviewscard_rating').text.strip()
         # Filter out the number of rating
         amount_of_rating = re.findall('\d', amount_of_rating)
-        #################### COMMENTS ###################
+        #################### COMMENTS###################
 
         # Check for at least one comment exist
         customer_rating_test = try_element_exist(detailed_soup, 'span', 'icon-box wider ratings border-good icon-dark icon-circle text-thick')
@@ -292,24 +287,18 @@ class GatherData:
             )
 
     def record_data(self):
-        
-        # Create a daily folder if not exist
-        directory = 'date_{self.date}'
-        
-        if not os.path.exists(directory):
-            os.makedirs(directory)
-
         # Save into csv file
-        folder_location = f'data/resto-list/{directory}'
-        data_location = {
-            "restaurants.csv": self.restaurant, 
-            "restaurant_details.csv": self.detailed_restaurants, 
-            "restaurant_comments.csv": self.comments
-        }
+        df = pd.DataFrame(self.restaurants)
+        df.to_csv('data/resto-list/restaurants.csv', index=False)
+        df = pd.DataFrame(self.detailed_restaurants)
+        df.to_csv('data/resto-list/restaurant_details.csv', index=False)
+        df = pd.DataFrame(self.rating_restaurants)
+        df.to_csv('data/resto-list/restaurant_ratings.csv', index=False)
+        df = pd.DataFrame(self.comments)
+        df.to_csv('data/resto-list/restaurant_comments.csv', index=False)
 
-        for file_name, data in item(data_location):
-            df = pd.DataFrame(data)
-            df.to_csv(f'{folder_location}/{file_name}', index=False)
+
+
 
 #Initialize
 gathering = GatherData()
@@ -317,7 +306,6 @@ gathering = GatherData()
 # Scrape the page
 gathering.initialize_gathering(gathering.data_source, 'all')
 
-# Create a log file if exists
-if os.path.exists('logs'):
-    with open(f"logs/bot_log_{gathering.date}_{gathering.hour}.log", "a") as log_file:
-        log_file.write("\n".join(gathering.all_log_txt))
+# Create a log file
+with open(f"logs/bot_log_{gathering.date}_{gathering.hour}.log", "a") as log_file:
+    log_file.write("\n".join(gathering.all_log_txt))
