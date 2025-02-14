@@ -170,3 +170,6 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
+# Hide data but not demo
+data/resto_list
+
