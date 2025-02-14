@@ -139,9 +139,6 @@ class GatherData:
                         raw_name = resto_link.text.split()
                         name = " ".join(raw_name)
 
-                        # From span
-                        address = resto.find('span', id=f'{i}-searchaddress').text.strip()
-
                         # From hash tag
                         hash_div = resto.find('div', class_='color-gray mb5 lh-normal search-cuisine-box')
                         # Skip if there is no hash tag
@@ -158,7 +155,6 @@ class GatherData:
                                 "name": name,
                                 "latitude": lat,
                                 "longitude": lon,
-                                "address": address,
                                 "hash_tags": ",".join(hash_tags),
                                 "unique_page": unique_page
                             }
@@ -218,6 +214,7 @@ class GatherData:
 
         #################### DETAILS ####################
         average_price = detailed_soup.find('div', class_='restaurant-price').get('data-tooltip')
+        address = detailed_soup.find('span', class_='street-address').text.strip()
         description = detailed_soup.find('div', class_='aboutus-text').text.strip()
 
         amount_of_picture  = try_element_exist(detailed_soup, 'a','btn-e-see-photos')
@@ -267,6 +264,7 @@ class GatherData:
             {
                 "id_resto": id_key,
                 "amount_pictures": "".join(amount_of_picture),
+                "address": address,
                 "average_price": average_price,
                 "features": ",".join(features),
                 "description" : description
