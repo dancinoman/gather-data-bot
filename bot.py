@@ -292,24 +292,27 @@ class GatherData:
             )
 
     def record_data(self):
-        
+
         # Create a daily folder if not exist
-        directory = 'date_{self.date}'
-        
-        if not os.path.exists(directory):
-            os.makedirs(directory)
+        directory = f'date_{self.date}_'
 
         # Save into csv file
-        folder_location = f'data/resto-list/{directory}'
+        folder_location = f'data/resto-list/{directory}/'
+
+        # Create folder by date or use existing folder
+        if not os.path.exists(folder_location):
+            os.makedirs(folder_location)
+
         data_location = {
-            "restaurants.csv": self.restaurant, 
-            "restaurant_details.csv": self.detailed_restaurants, 
+            "restaurants.csv": self.restaurants,
+            "restaurant_details.csv": self.detailed_restaurants,
             "restaurant_comments.csv": self.comments
         }
 
-        for file_name, data in item(data_location):
+        # Iterate through data and save into csv
+        for file_name, data in data_location.items():
             df = pd.DataFrame(data)
-            df.to_csv(f'{folder_location}/{file_name}', index=False)
+            df.to_csv(f'{folder_location}{file_name}', index=False)
 
 #Initialize
 gathering = GatherData()

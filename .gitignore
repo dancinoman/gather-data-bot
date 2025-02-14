@@ -171,5 +171,4 @@ cython_debug/
 .pypirc
 
 # Hide data but not demo
-data/resto_list
-
+data/resto-list
