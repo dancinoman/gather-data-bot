@@ -34,6 +34,7 @@ class GatherData:
     data_source = "https://www.restomontreal.ca/s/?restaurants=greater-montreal&lang=en"
     id = 1
     all_log_txt = []
+    folder_location = f'data/resto-list/date_{date}'
     driver = webdriver.Chrome()
     restaurants = []
     detailed_restaurants = []
@@ -51,6 +52,13 @@ class GatherData:
         print(log_info)
         # Prepare text to save in file
         self.all_log_txt.append(log_info)
+
+        # Create a log file if exists and update log
+        if not os.path.exists(f'{self.folder_location}/logs/'):
+            os.makedirs(f'{self.folder_location}/logs/')
+
+        with open(f"{self.folder_location}/logs/bot_operation_{self.date}_{self.hour}.log", "w") as log_file:
+            log_file.write("\n".join(gathering.all_log_txt))
 
     def initialize_gathering(self, page_link: str, *args):
 
@@ -126,7 +134,7 @@ class GatherData:
 
                 # Scrape all content block
 
-                for i, resto in enumerate(resto_block):
+                for resto in resto_block:
                     try:
                         # From main Div
                         lat = resto.get('data-lat')
@@ -172,13 +180,14 @@ class GatherData:
 
                     except Exception:
                         full_trace = traceback.format_exc()
-                        self.record_data()
                         self.create_log('ERROR', full_trace)
                         self.create_log('WARNING', f'Encountered at page {page_num} after {len(self.restaurants)} element(s) recorded')
                         self.create_log('INFO', f"Got issue with id: {self.id}")
                         self.id += 1
                         continue
 
+                # Update data every iteration
+                self.record_data()
 
 
             # Execute a range or list of page
@@ -195,11 +204,14 @@ class GatherData:
 
     def get_detailed_page(self, link, id_key):
 
-        def try_element_exist(soup, element, class_name):
-            try:
-                return soup.find(element, class_=class_name)
-            except Exception as e:
-                return None
+        def try_element_exist(soup, element, class_name, numeric):
+
+            info = soup.find(element, class_=class_name)
+
+            if info is None and numeric:
+                return 0
+            else:
+                return info
 
         def extract_soup(elements):
             this_list = []
@@ -217,20 +229,20 @@ class GatherData:
         address = detailed_soup.find('span', class_='street-address').text.strip()
         description = detailed_soup.find('div', class_='aboutus-text').text.strip()
 
-        amount_of_picture  = try_element_exist(detailed_soup, 'a','btn-e-see-photos')
+        amount_of_picture  = try_element_exist(detailed_soup, 'a','btn-e-see-photos', True)
         # Filter out the number of picture
         if amount_of_picture is not None:
             amount_of_picture = re.findall('\d', amount_of_picture.text)
 
         # Get features list
-        features_group = try_element_exist(detailed_soup, 'div', "row mt5 mb5")
+        features_group = try_element_exist(detailed_soup, 'div', "row mt5 mb5", False)
         features = []
         if features_group is not None:
             features_group.find_all('span', class_='action-btn-group')
             features = extract_soup(features)
 
         #################### RATINGS ####################
-        average_rating = try_element_exist(detailed_soup, 'span', 'google_rating_bold')
+        average_rating = try_element_exist(detailed_soup, 'span', 'google_rating_bold', True)
         if average_rating is not None: average_rating = average_rating.text.strip()
         else: average_rating = None
 
@@ -240,7 +252,7 @@ class GatherData:
         #################### COMMENTS ###################
 
         # Check for at least one comment exist
-        customer_rating_test = try_element_exist(detailed_soup, 'span', 'icon-box wider ratings border-good icon-dark icon-circle text-thick')
+        customer_rating_test = try_element_exist(detailed_soup, 'span', 'icon-box wider ratings border-good icon-dark icon-circle text-thick', False)
 
         customer_rating = []
         customer_comment = []
@@ -291,15 +303,9 @@ class GatherData:
 
     def record_data(self):
 
-        # Create a daily folder if not exist
-        directory = f'date_{self.date}_'
-
-        # Save into csv file
-        folder_location = f'data/resto-list/{directory}/'
-
         # Create folder by date or use existing folder
-        if not os.path.exists(folder_location):
-            os.makedirs(folder_location)
+        if not os.path.exists(self.folder_location):
+            os.makedirs(self.folder_location)
 
         data_location = {
             "restaurants.csv": self.restaurants,
@@ -310,15 +316,10 @@ class GatherData:
         # Iterate through data and save into csv
         for file_name, data in data_location.items():
             df = pd.DataFrame(data)
-            df.to_csv(f'{folder_location}{file_name}', index=False)
+            df.to_csv(f'{self.folder_location}/{file_name}', index=False)
 
 #Initialize
 gathering = GatherData()
 
 # Scrape the page
 gathering.initialize_gathering(gathering.data_source, 'all')
-
-# Create a log file if exists
-if os.path.exists('logs'):
-    with open(f"logs/bot_log_{gathering.date}_{gathering.hour}.log", "a") as log_file:
-        log_file.write("\n".join(gathering.all_log_txt))
