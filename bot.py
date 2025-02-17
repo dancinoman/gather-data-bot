@@ -1,5 +1,6 @@
 # Basic Imports
 import os
+from dotenv import load_dotenv
 import requests
 import pandas as pd
 import csv
@@ -23,15 +24,14 @@ import chromedriver_binary
 from bs4 import BeautifulSoup
 import bs4
 
-#TODO fix when only one element used with a list to indicate the number of page
-#TODO fix when an int is used to indicate the number of page instead is used to indicate the number of restaurant to scrape
-#TODO fix no longer use webdriver
-#TODO generate new data filename differently
+# Load environment variables
+load_dotenv()
+
 class GatherData:
 
     date = datetime.date.today().strftime('%d-%m-%Y')
     hour = datetime.datetime.now().strftime('%H:%M:%S')
-    data_source = "https://www.restomontreal.ca/s/?restaurants=greater-montreal&lang=en"
+    website_address = os.environ.get('WEBSITE_ADDRESS')
     id = 1
     all_log_txt = []
     folder_location = f'data/resto-list/date_{date}'
@@ -61,6 +61,7 @@ class GatherData:
             log_file.write("\n".join(gathering.all_log_txt))
 
     def initialize_gathering(self, page_link: str, *args):
+        print('website_address', self.website_address)
 
         try:
             # Display info on terminal and write in log
@@ -122,7 +123,7 @@ class GatherData:
             def execute_scrape(page_num):
 
                 # Start scraping content to the instruction page
-                web_link = self.data_source + f"&page={page_num}#{page_num}"
+                web_link = self.website_address + f"&page={page_num}#{page_num}"
                 self.driver.get(web_link)
                 time.sleep(3)
 
@@ -322,4 +323,4 @@ class GatherData:
 gathering = GatherData()
 
 # Scrape the page
-gathering.initialize_gathering(gathering.data_source, 'all')
+gathering.initialize_gathering(gathering.website_address, 'all')
