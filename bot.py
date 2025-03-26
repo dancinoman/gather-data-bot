@@ -1,5 +1,6 @@
 # Basic Imports
 import os
+import sys
 from dotenv import load_dotenv
 import pandas as pd
 import time
@@ -14,8 +15,8 @@ from selenium import webdriver
 # BeautifulSoup
 from bs4 import BeautifulSoup
 
-# Import classes
-from logger import Logger
+# Import classes from folder
+from app.logger import Logger
 
 # Load environment variablesgit pyen
 load_dotenv()
