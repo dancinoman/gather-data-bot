@@ -16,7 +16,7 @@ from selenium import webdriver
 from bs4 import BeautifulSoup
 
 # Import classes from folder
-from app.logger import Logger
+from app.write import RecordData
 
 # Load environment variablesgit pyen
 load_dotenv()
@@ -39,25 +39,6 @@ class GatherData:
         self.website_address = website_address
         self.folder_location = folder_location
 
-
-    """def create_log(self, status: str, value: str):
-
-        # Register time
-        date = datetime.date.today().strftime('%d-%m-%Y')
-        hour = datetime.datetime.now().strftime('%H:%M:%S')
-        # Create readable log
-        log_info = f"[{date} {hour}] {status}: {value}"
-        print(log_info)
-        # Prepare text to save in file
-        self.all_log_txt.append(log_info)
-
-        # Create a log file if exists and update log
-        if not os.path.exists(f'{self.folder_location}/logs/'):
-            os.makedirs(f'{self.folder_location}/logs/')
-
-        with open(f"{self.folder_location}/logs/bot_operation_{self.date}_{self.hour}.log", "w") as log_file:
-            log_file.write("\n".join(gathering.all_log_txt))"""
-
     def initialize_gathering(self, *args):
 
         try:
@@ -70,11 +51,10 @@ class GatherData:
                 release = version_info["release"]
                 description = version_info["description"]
 
+                record.create_log('INFO', f'Version: {major}.{minor}.{patch}-{release}')
+                record.create_log('INFO', f'Version: {description}')
 
-                logger.create_log('INFO', f'Version: {major}.{minor}.{patch}-{release}')
-                logger.create_log('INFO', f'Version: {description}')
-
-            logger.create_log('INFO', 'Page is loading...')
+            record.create_log('INFO', 'Page is loading...')
             # Initializing web driver
             self.driver.get(self.website_address)
             time.sleep(3)
@@ -88,9 +68,9 @@ class GatherData:
             # Track number of pages
             num_pages = soup.find("div", class_="mb0 mt40 color-dark bold fs-16 text-center p10").text.split()[-1].strip()
             # Saving infon into log
-            logger.create_log('INFO', 'Started')
-            logger.create_log('INFO' , f'Number of result(s) for scraping {num_restults}')
-            logger.create_log('INFO', f'Number of page(s) for scraping {num_pages}')
+            record.create_log('INFO', 'Started')
+            record.create_log('INFO' , f'Number of result(s) for scraping {num_restults}')
+            record.create_log('INFO', f'Number of page(s) for scraping {num_pages}')
 
             # Process args for instructions
             for item in args:
@@ -111,8 +91,8 @@ class GatherData:
 
         except Exception:
             full_trace = traceback.format_exc()
-            logger.create_log('ERROR', full_trace)
-            logger.create_log('WARNING', 'Scraping process interupted no record was made.')
+            record.create_log('ERROR', full_trace)
+            record.create_log('WARNING', 'Scraping process interupted no record was made.')
 
 
     def get_data(self, min_page: int, max_page: int, pages = None):
@@ -129,7 +109,7 @@ class GatherData:
                 soup = BeautifulSoup(self.driver.page_source, 'html.parser')
                 resto_block = soup.find_all("div", class_='search-result')
 
-                logger.create_log('INFO', f'Starting to fetch on page {page_num}')
+                record.create_log('INFO', f'Starting to fetch on page {page_num}')
 
                 # Scrape all content block
 
@@ -156,7 +136,7 @@ class GatherData:
                             for hash in hash_elements:
                                 hash_tags.append(hash.text.strip())
                     #################### RECORD ####################
-                        self.restaurants.append(
+                        record.restaurants.append(
                             {
                                 "id": self.id,
                                 "name": name,
@@ -169,7 +149,7 @@ class GatherData:
 
                         # Get details of in unique page for restaurant
                         self.get_detailed_page(unique_page, self.id)
-                        logger.create_log('INFO', f'{len(self.restaurants)} - data')
+                        record.create_log('INFO', f'{len(self.restaurants)} - data')
 
                         self.id += 1
                         # Stop if reached the last page
@@ -179,9 +159,9 @@ class GatherData:
 
                     except Exception:
                         full_trace = traceback.format_exc()
-                        logger.create_log('ERROR', full_trace)
-                        logger.create_log('WARNING', f'Encountered at page {page_num} after {len(self.restaurants)} element(s) recorded')
-                        logger.create_log('INFO', f"Got issue with id: {self.id}")
+                        record.create_log('ERROR', full_trace)
+                        record.create_log('WARNING', f'Encountered at page {page_num} after {len(self.restaurants)} element(s) recorded')
+                        record.create_log('INFO', f"Got issue with id: {self.id}")
                         self.id += 1
                         continue
 
@@ -271,7 +251,7 @@ class GatherData:
 
 
         #################### RECORD ####################
-        self.detailed_restaurants.append(
+        record.detailed_restaurants.append(
             {
                 "id_resto": id_key,
                 "amount_pictures": "".join(amount_of_picture),
@@ -282,7 +262,7 @@ class GatherData:
             }
         )
 
-        self.rating_restaurants.append(
+        record.rating_restaurants.append(
             {
                 "id_resto": id_key,
                 "average_rating": average_rating,
@@ -300,7 +280,7 @@ class GatherData:
                 }
             )
 
-    def record_data(self):
+    """def record_data(self):
 
         # Create folder by date or use existing folder
         if not os.path.exists(self.folder_location):
@@ -315,13 +295,13 @@ class GatherData:
         # Iterate through data and save into csv
         for file_name, data in data_location.items():
             df = pd.DataFrame(data)
-            df.to_csv(f'{self.folder_location}/{file_name}', index=False)
+            df.to_csv(f'{self.folder_location}/{file_name}', index=False)"""
 
 #Initialize
 date = datetime.date.today().strftime('%d-%m-%Y')
 folder_location = f'data/resto-list/date_{date}'
 website_address = os.environ.get('WEBSITE_ADDRESS')
-logger = Logger(folder_location)
+record = RecordData(folder_location)
 gathering = GatherData(website_address, folder_location)
 
 # Scrape the page

@@ -1,7 +1,8 @@
 import os
 import datetime
+import pandas as pd
 
-class Logger:
+class RecordData:
     """
     Responsible for creating logs for the bot that describes operations, status, or amount of data.
     The logs are saved in an organized folder along with data collected to get easy tracking performance.
@@ -9,12 +10,14 @@ class Logger:
     date = datetime.date.today().strftime('%d-%m-%Y')
     hour = datetime.datetime.now().strftime('%H:%M:%S')
     full_log_txt = []
+    restaurants = []
+    detailed_restaurants = []
+    comments = []
 
     def __init__(self, folder_location: str):
         self.folder_location = folder_location
 
     def create_log(self, status: str, value: str):
-        # Register time
 
         # Create readable log
         log_info = f"[{self.date} {self.hour}] {status}: {value}"
@@ -28,3 +31,20 @@ class Logger:
 
         with open(f"{self.folder_location}/logs/bot_operation_{self.date}_{self.hour}.log", "w") as log_file:
             log_file.write("\n".join(self.full_log_txt))
+
+    def files(self):
+
+        # Create folder by date or use existing folder
+        if not os.path.exists(self.folder_location):
+            os.makedirs(self.folder_location)
+
+        data_location = {
+            "restaurants.csv": self.restaurants,
+            "restaurant_details.csv": self.detailed_restaurants,
+            "restaurant_comments.csv": self.comments
+        }
+
+        # Iterate through data and save into csv
+        for file_name, data in data_location.items():
+            df = pd.DataFrame(data)
+            df.to_csv(f'{self.folder_location}/{file_name}', index=False)
