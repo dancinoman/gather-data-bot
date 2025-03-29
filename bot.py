@@ -16,7 +16,7 @@ from selenium import webdriver
 from bs4 import BeautifulSoup
 
 # Import classes from folder
-from app.write import RecordData
+from app.record_data import RecordData
 
 # Load environment variablesgit pyen
 load_dotenv()
@@ -29,7 +29,6 @@ class GatherData:
     all_log_txt = []
 
     driver = webdriver.Chrome()
-    restaurants = []
     detailed_restaurants = []
     rating_restaurants = []
     comments = []
@@ -149,7 +148,7 @@ class GatherData:
 
                         # Get details of in unique page for restaurant
                         self.get_detailed_page(unique_page, self.id)
-                        record.create_log('INFO', f'{len(self.restaurants)} - data')
+                        record.create_log('INFO', f'{len(record.restaurants)} data recorded')
 
                         self.id += 1
                         # Stop if reached the last page
@@ -165,10 +164,9 @@ class GatherData:
                         self.id += 1
                         continue
 
-                # Update data every iteration
-                self.record_data()
-
-
+                # Save file to csv
+                record.save_csv()
+                
             # Execute a range or list of page
             if max_page != 0:
 
@@ -182,15 +180,6 @@ class GatherData:
             self.record_data()
 
     def get_detailed_page(self, link, id_key):
-
-        def try_element_exist(soup, element, class_name, numeric):
-
-            info = soup.find(element, class_=class_name)
-
-            if info is None and numeric:
-                return 0
-            else:
-                return info
 
         def extract_soup(elements):
             this_list = []
@@ -208,20 +197,24 @@ class GatherData:
         address = detailed_soup.find('span', class_='street-address').text.strip()
         description = detailed_soup.find('div', class_='aboutus-text').text.strip()
 
-        amount_of_picture  = try_element_exist(detailed_soup, 'a','btn-e-see-photos', True)
-        # Filter out the number of picture
+        amount_of_picture  = detailed_soup.find('a','btn-e thick bold black rounded mb10 mt30 block')
+
+        # Filter empty value
         if amount_of_picture is not None:
             amount_of_picture = re.findall('\d', amount_of_picture.text)
+        else:
+            amount_of_picture = ["0"]
 
         # Get features list
-        features_group = try_element_exist(detailed_soup, 'div', "row mt5 mb5", False)
+        features_group = detailed_soup.find('div', "row mt5 mb5", False)
         features = []
+
         if features_group is not None:
             features_group.find_all('span', class_='action-btn-group')
             features = extract_soup(features)
 
         #################### RATINGS ####################
-        average_rating = try_element_exist(detailed_soup, 'span', 'google_rating_bold', True)
+        average_rating = detailed_soup.find('span', 'google_rating_bold')
         if average_rating is not None: average_rating = average_rating.text.strip()
         else: average_rating = None
 
@@ -231,7 +224,7 @@ class GatherData:
         #################### COMMENTS ###################
 
         # Check for at least one comment exist
-        customer_rating_test = try_element_exist(detailed_soup, 'span', 'icon-box wider ratings border-good icon-dark icon-circle text-thick', False)
+        customer_rating_test = detailed_soup.find('span', 'icon-box wider ratings border-good icon-dark icon-circle text-thick')
 
         customer_rating = []
         customer_comment = []
@@ -301,8 +294,9 @@ class GatherData:
 date = datetime.date.today().strftime('%d-%m-%Y')
 folder_location = f'data/resto-list/date_{date}'
 website_address = os.environ.get('WEBSITE_ADDRESS')
-record = RecordData(folder_location)
 gathering = GatherData(website_address, folder_location)
+record = RecordData(folder_location)
+
 
 # Scrape the page
 gathering.initialize_gathering("all")
