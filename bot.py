@@ -148,8 +148,11 @@ class GatherData:
 
                         # Get details of in unique page for restaurant
                         self.get_detailed_page(unique_page, self.id)
-                        record.create_log('INFO', f'{len(record.restaurants)} data recorded')
+                        record.create_log('INFO', f'#{len(record.restaurants)} - {record.restaurants[-1]["name"]} recorded')
 
+                        # Save file to csv
+                        record.save_csv()
+                        
                         self.id += 1
                         # Stop if reached the last page
                         if page_num == max_page+ 1:
@@ -164,9 +167,8 @@ class GatherData:
                         self.id += 1
                         continue
 
-                # Save file to csv
-                record.save_csv()
-                
+
+
             # Execute a range or list of page
             if max_page != 0:
 
@@ -273,22 +275,6 @@ class GatherData:
                 }
             )
 
-    """def record_data(self):
-
-        # Create folder by date or use existing folder
-        if not os.path.exists(self.folder_location):
-            os.makedirs(self.folder_location)
-
-        data_location = {
-            "restaurants.csv": self.restaurants,
-            "restaurant_details.csv": self.detailed_restaurants,
-            "restaurant_comments.csv": self.comments
-        }
-
-        # Iterate through data and save into csv
-        for file_name, data in data_location.items():
-            df = pd.DataFrame(data)
-            df.to_csv(f'{self.folder_location}/{file_name}', index=False)"""
 
 #Initialize
 date = datetime.date.today().strftime('%d-%m-%Y')
