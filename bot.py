@@ -29,14 +29,10 @@ class GatherData:
     all_log_txt = []
 
     driver = webdriver.Chrome()
-    detailed_restaurants = []
-    rating_restaurants = []
-    comments = []
     start_time = time.time()
 
-    def __init__(self, website_address: str, folder_location: str):
+    def __init__(self, website_address: str):
         self.website_address = website_address
-        self.folder_location = folder_location
 
     def initialize_gathering(self, *args):
 
@@ -152,7 +148,7 @@ class GatherData:
 
                         # Save file to csv
                         record.save_csv()
-                        
+
                         self.id += 1
                         # Stop if reached the last page
                         if page_num == max_page+ 1:
@@ -162,7 +158,6 @@ class GatherData:
                     except Exception:
                         full_trace = traceback.format_exc()
                         record.create_log('ERROR', full_trace)
-                        record.create_log('WARNING', f'Encountered at page {page_num} after {len(self.restaurants)} element(s) recorded')
                         record.create_log('INFO', f"Got issue with id: {self.id}")
                         self.id += 1
                         continue
@@ -220,14 +215,18 @@ class GatherData:
         if average_rating is not None: average_rating = average_rating.text.strip()
         else: average_rating = None
 
-        amount_of_rating = detailed_soup.find('a', class_='reviewscard_rating').text.strip()
-        # Filter out the number of rating
-        amount_of_rating = re.findall('\d', amount_of_rating)
+        amount_of_rating = detailed_soup.find('a', class_='reviewscard_rating')
+
+        if amount_of_rating is not None:
+            amount_of_rating = amount_of_rating.text.strip()
+            amount_of_rating = re.findall('\d', amount_of_rating)
+            amount_of_rating = ''.join(amount_of_rating)
+        else:
+            amount_of_rating = None
         #################### COMMENTS ###################
 
         # Check for at least one comment exist
         customer_rating_test = detailed_soup.find('span', 'icon-box wider ratings border-good icon-dark icon-circle text-thick')
-
         customer_rating = []
         customer_comment = []
         customer_rating_date = []
@@ -236,7 +235,6 @@ class GatherData:
             for rating in customer_ratings[:-1]:
                 if rating.find('span') is not None:
                     customer_rating.append(rating.find('span').text.strip())
-
 
             customer_comments = detailed_soup.find_all('p', class_='mt20 mb20 reviews-desc')
             customer_rating_dates = detailed_soup.find_all('span', class_='review-date')
@@ -261,12 +259,12 @@ class GatherData:
             {
                 "id_resto": id_key,
                 "average_rating": average_rating,
-                'amount_of_rating': ''.join(amount_of_rating)
+                'amount_of_rating': amount_of_rating
             }
         )
 
         for i in range(len(customer_rating)):
-            self.comments.append(
+            record.comments.append(
                 {
                     "id_resto": id_key,
                     "customer_rating": customer_rating[i],
@@ -280,7 +278,7 @@ class GatherData:
 date = datetime.date.today().strftime('%d-%m-%Y')
 folder_location = f'data/resto-list/date_{date}'
 website_address = os.environ.get('WEBSITE_ADDRESS')
-gathering = GatherData(website_address, folder_location)
+gathering = GatherData(website_address)
 record = RecordData(folder_location)
 
 
