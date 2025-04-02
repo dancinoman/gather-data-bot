@@ -2,6 +2,10 @@ import os
 import datetime
 import pandas as pd
 
+from scrape import Scrape
+
+scrape = Scrape()
+
 class RecordData:
     """"
     Main purpose is to save data collected to a loclal folder.
@@ -9,10 +13,6 @@ class RecordData:
     date = datetime.date.today().strftime('%d-%m-%Y')
     hour = datetime.datetime.now().strftime('%H:%M:%S')
     full_log_txt = []
-    restaurants = []
-    detailed_restaurants = []
-    rating_restaurants = []
-    comments = []
 
     def __init__(self, folder_location: str):
         self.folder_location = folder_location
@@ -44,9 +44,9 @@ class RecordData:
             os.makedirs(self.folder_location)
 
         data_location = {
-            "restaurants.csv": self.restaurants,
-            "restaurant_details.csv": self.detailed_restaurants,
-            "restaurant_comments.csv": self.comments
+            "restaurants.csv": scrape.restaurants,
+            "restaurant_details.csv": scrape.detailed_restaurants,
+            "restaurant_comments.csv": scrape.comments
         }
 
         # Iterate through data and save into csv

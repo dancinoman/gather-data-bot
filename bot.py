@@ -162,8 +162,6 @@ class GatherData:
                         self.id += 1
                         continue
 
-
-
             # Execute a range or list of page
             if max_page != 0:
 
@@ -178,7 +176,7 @@ class GatherData:
 
     def get_detailed_page(self, link, id_key):
 
-        def extract_soup(elements):
+        """def extract_soup(elements):
             this_list = []
             for element in elements:
                 this_list.append(element.text.strip())
@@ -271,7 +269,7 @@ class GatherData:
                     "customer_comment": customer_comment[i],
                     "customer_rating_date": customer_rating_date[i]
                 }
-            )
+            """
 
 
 #Initialize
