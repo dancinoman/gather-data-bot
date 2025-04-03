@@ -5,16 +5,18 @@ import time
 
 class Scrape:
 
-    restaurants = []
-    detailed_restaurants = []
-    rating_restaurants = []
-    comments = []
+    def __init__(self)
+        self.restaurants = []
+        self.detailed_restaurants = []
+        self.rating_restaurants = []
+        self.comments = []
 
+    @staticmethod
     def extract_soup(elements):
-            this_list = []
-            for element in elements:
-                this_list.append(element.text.strip())
-            return this_list
+        """
+        Extracts text from BeautifulSoup elements.
+        """
+        return [element.text.strip() for element in elements if element]
 
     def individual_page(self, link, id_key):
         """
@@ -39,7 +41,7 @@ class Scrape:
 
         # Get features list
         features_group = detailed_soup.find('div', "row mt5 mb5", False)
-        features = []
+
 
         if features_group is not None:
             features_group.find_all('span', class_='action-btn-group')
