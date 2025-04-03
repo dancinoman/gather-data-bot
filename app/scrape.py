@@ -5,18 +5,15 @@ import time
 
 class Scrape:
 
-    def __init__(self)
+    def __init__(self):
         self.restaurants = []
         self.detailed_restaurants = []
         self.rating_restaurants = []
         self.comments = []
 
-    @staticmethod
-    def extract_soup(elements):
-        """
-        Extracts text from BeautifulSoup elements.
-        """
-        return [element.text.strip() for element in elements if element]
+        self.customer_rating = []
+        self.customer_comment = []
+        self.customer_rating_date = []
 
     def individual_page(self, link, id_key):
         """
@@ -45,7 +42,7 @@ class Scrape:
 
         if features_group is not None:
             features_group.find_all('span', class_='action-btn-group')
-            features = extract_soup(features)
+            features = [element.text.strip() for element in features_group if element]
 
         #################### RATINGS ####################
         average_rating = detailed_soup.find('span', 'google_rating_bold')
@@ -64,20 +61,17 @@ class Scrape:
 
         # Check for at least one comment exist
         customer_rating_test = detailed_soup.find('span', 'icon-box wider ratings border-good icon-dark icon-circle text-thick')
-        customer_rating = []
-        customer_comment = []
-        customer_rating_date = []
         if customer_rating_test is not None:
             customer_ratings = detailed_soup.find_all('div', class_='pull-right')
             for rating in customer_ratings[:-1]:
                 if rating.find('span') is not None:
-                    customer_rating.append(rating.find('span').text.strip())
+                    self.customer_rating.append(rating.find('span').text.strip())
 
             customer_comments = detailed_soup.find_all('p', class_='mt20 mb20 reviews-desc')
             customer_rating_dates = detailed_soup.find_all('span', class_='review-date')
 
-            customer_comment = extract_soup(customer_comments)
-            customer_rating_date = extract_soup(customer_rating_dates)
+            self.customer_comment = [element.text.strip() for element in customer_comments if element]
+            self.customer_rating_date = [element.text.strip() for element in customer_rating_dates if element]
 
     def prepare_dict(self):
         """
