@@ -1,6 +1,7 @@
 
 from bs4 import BeautifulSoup
 import time
+import re
 #TODO fix the errors within Scrape class
 
 class Scrape:
@@ -10,19 +11,17 @@ class Scrape:
         self.detailed_restaurants = []
         self.rating_restaurants = []
         self.comments = []
-
         self.customer_rating = []
         self.customer_comment = []
         self.customer_rating_date = []
 
-    def individual_page(self, link, id_key):
+    def individual_content(self, page_source, id_key):
         """
         Scrapes individual restaurant pages.
         """
-        self.driver.get(link)
-        time.sleep(3)
+
         # Get page soup
-        detailed_soup = BeautifulSoup(self.driver.page_source, 'html.parser')
+        detailed_soup = BeautifulSoup(page_source, 'html.parser')
 
         average_price = detailed_soup.find('div', class_='restaurant-price').get('data-tooltip')
         address = detailed_soup.find('span', class_='street-address').text.strip()
@@ -43,6 +42,8 @@ class Scrape:
         if features_group is not None:
             features_group.find_all('span', class_='action-btn-group')
             features = [element.text.strip() for element in features_group if element]
+        else:
+            features = []
 
         #################### RATINGS ####################
         average_rating = detailed_soup.find('span', 'google_rating_bold')
@@ -72,11 +73,8 @@ class Scrape:
 
             self.customer_comment = [element.text.strip() for element in customer_comments if element]
             self.customer_rating_date = [element.text.strip() for element in customer_rating_dates if element]
+            
 
-    def prepare_dict(self):
-        """
-        Add data to the dictionary.
-        """
         self.detailed_restaurants.append(
             {
                 "id_resto": id_key,
@@ -96,11 +94,14 @@ class Scrape:
             }
         )
 
-        for i in range(len(customer_rating)):
+        for i in range(len(self.customer_rating)):
             self.comments.append(
                 {
                     "id_resto": id_key,
-                    "customer_rating": customer_rating[i],
-                    "customer_comment": customer_comment[i],
-                    "customer_rating_date": customer_rating_date[i]
+                    "customer_rating": self.customer_rating[i],
+                    "customer_comment": self.customer_comment[i],
+                    "customer_rating_date": self.customer_rating_date[i]
                 }
+            )
+
+        return self.detailed_restaurants, self.rating_restaurants, self.comments

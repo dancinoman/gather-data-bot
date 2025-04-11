@@ -5,7 +5,6 @@ from dotenv import load_dotenv
 import pandas as pd
 import time
 import datetime
-import re
 import traceback
 import json
 
@@ -17,6 +16,7 @@ from bs4 import BeautifulSoup
 
 # Import classes from folder
 from app.record_data import RecordData
+from app.scrape import Scrape
 
 # Load environment variablesgit pyen
 load_dotenv()
@@ -93,86 +93,86 @@ class GatherData:
     def get_data(self, min_page: int, max_page: int, pages = None):
 
         # Scrape by page
-            def execute_scrape(page_num):
+        def execute_scrape(page_num):
 
-                # Start scraping content to the instruction page
-                web_link = self.website_address + f"&page={page_num}#{page_num}"
-                self.driver.get(web_link)
-                time.sleep(3)
+            # Start scraping content to the instruction page
+            web_link = self.website_address + f"&page={page_num}#{page_num}"
+            self.driver.get(web_link)
+            time.sleep(3)
 
-                #Using beautiful soup to get the list of restaurants
-                soup = BeautifulSoup(self.driver.page_source, 'html.parser')
-                resto_block = soup.find_all("div", class_='search-result')
+            #Using beautiful soup to get the list of restaurants
+            soup = BeautifulSoup(self.driver.page_source, 'html.parser')
+            resto_block = soup.find_all("div", class_='search-result')
 
-                record.create_log('INFO', f'Starting to fetch on page {page_num}')
+            record.create_log('INFO', f'Starting to fetch on page {page_num}')
 
-                # Scrape all content block
+            # Scrape all content block
 
-                for resto in resto_block:
-                    try:
-                        # From main Div
-                        lat = resto.get('data-lat')
-                        lon = resto.get('data-lon')
+            for resto in resto_block:
+                try:
+                    # From main Div
+                    lat = resto.get('data-lat')
+                    lon = resto.get('data-lon')
 
-                        # From link
-                        link = resto.find_all('a')
-                        resto_link = link[2]
-                        unique_page = resto_link.get('href')
-                        raw_name = resto_link.text.split()
-                        name = " ".join(raw_name)
+                    # From link
+                    link = resto.find_all('a')
+                    resto_link = link[2]
+                    unique_page = resto_link.get('href')
+                    raw_name = resto_link.text.split()
+                    name = " ".join(raw_name)
 
-                        # From hash tag
-                        hash_div = resto.find('div', class_='color-gray mb5 lh-normal search-cuisine-box')
-                        # Skip if there is no hash tag
-                        if hash_div != None:
-                            hash_elements = hash_div.find_all('a')
+                    # From hash tag
+                    hash_div = resto.find('div', class_='color-gray mb5 lh-normal search-cuisine-box')
+                    # Skip if there is no hash tag
+                    if hash_div != None:
+                        hash_elements = hash_div.find_all('a')
 
-                            hash_tags = []
-                            for hash in hash_elements:
-                                hash_tags.append(hash.text.strip())
-                    #################### RECORD ####################
-                        record.restaurants.append(
-                            {
-                                "id": self.id,
-                                "name": name,
-                                "latitude": lat,
-                                "longitude": lon,
-                                "hash_tags": ",".join(hash_tags),
-                                "unique_page": unique_page
-                            }
-                        )
+                        hash_tags = []
+                        for hash in hash_elements:
+                            hash_tags.append(hash.text.strip())
+                #################### RECORD ####################
+                    record.restaurants.append(
+                        {
+                            "id": self.id,
+                            "name": name,
+                            "latitude": lat,
+                            "longitude": lon,
+                            "hash_tags": ",".join(hash_tags),
+                            "unique_page": unique_page
+                        }
+                    )
 
-                        # Get details of in unique page for restaurant
-                        self.get_detailed_page(unique_page, self.id)
-                        record.create_log('INFO', f'#{len(record.restaurants)} - {record.restaurants[-1]["name"]} recorded')
+                    record.create_log('INFO', f'#{len(record.restaurants)} - {record.restaurants[-1]["name"]} recorded')
 
-                        # Save file to csv
-                        record.save_csv()
+                    # Save file to csv from individual page
+                    self.driver.get(unique_page)
+                    time.sleep(3)
+                    record.save_csv(scrape_frame.individual_content(self.driver.page_source, self.id))
 
-                        self.id += 1
-                        # Stop if reached the last page
-                        if page_num == max_page+ 1:
-                            self.create_log('INFO', "Bot's task completed")
-                            break
+                    self.id += 1
+                    # Stop if reached the last page
+                    if page_num == max_page+ 1:
+                        self.create_log('INFO', "Bot's task completed")
+                        break
 
-                    except Exception:
-                        full_trace = traceback.format_exc()
-                        record.create_log('ERROR', full_trace)
-                        record.create_log('INFO', f"Got issue with id: {self.id}")
-                        self.id += 1
-                        continue
+                except Exception:
+                    full_trace = traceback.format_exc()
+                    record.create_log('ERROR', full_trace)
+                    record.create_log('INFO', f"Got issue with id: {self.id}")
+                    self.id += 1
+                    continue
 
-            # Execute a range or list of page
-            if max_page != 0:
+        # Execute a range or list of page
+        if max_page != 0:
 
-                for page_num in range(min_page, max_page):
-                    execute_scrape(page_num)
+            for page_num in range(min_page, max_page):
+                execute_scrape(page_num)
 
-            elif pages is not None:
-                for page in pages:
-                    execute_scrape(page)
+        elif pages is not None:
+            for page in pages:
+                execute_scrape(page)
 
-            self.record_data()
+        self.record_data()
 
     def get_detailed_page(self, link, id_key):
 
@@ -278,7 +278,7 @@ folder_location = f'data/resto-list/date_{date}'
 website_address = os.environ.get('WEBSITE_ADDRESS')
 gathering = GatherData(website_address)
 record = RecordData(folder_location)
-
+scrape_frame = Scrape()
 
 # Scrape the page
 gathering.initialize_gathering("all")

@@ -2,10 +2,6 @@ import os
 import datetime
 import pandas as pd
 
-from scrape import Scrape
-
-scrape = Scrape()
-
 class RecordData:
     """"
     Main purpose is to save data collected to a loclal folder.
@@ -14,9 +10,9 @@ class RecordData:
     hour = datetime.datetime.now().strftime('%H:%M:%S')
     full_log_txt = []
 
-    def __init__(self, folder_location: str):
+    def __init__(self, folder_location: str, ):
         self.folder_location = folder_location
-
+        self.restaurants = []
     def create_log(self, status: str, value: str):
         """
         Responsible for creating logs for the bot that describes operations, status, or amount of data.
@@ -35,7 +31,7 @@ class RecordData:
         with open(f"{self.folder_location}/logs/bot_operation_{self.date}_{self.hour}.log", "w") as log_file:
             log_file.write("\n".join(self.full_log_txt))
 
-    def save_csv(self):
+    def save_csv(self, restaurants: list, detailed_restaurants: list, rating_restaurants: list):
         """
         Collect all data and convert to csv files.
         """
@@ -44,9 +40,9 @@ class RecordData:
             os.makedirs(self.folder_location)
 
         data_location = {
-            "restaurants.csv": scrape.restaurants,
-            "restaurant_details.csv": scrape.detailed_restaurants,
-            "restaurant_comments.csv": scrape.comments
+            "restaurants.csv": restaurants,
+            "restaurant_details.csv": detailed_restaurants,
+            "restaurant_comments.csv": rating_restaurants
         }
 
         # Iterate through data and save into csv
