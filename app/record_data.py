@@ -12,7 +12,7 @@ class RecordData:
 
     def __init__(self, folder_location: str, ):
         self.folder_location = folder_location
-        self.restaurants = []
+
     def create_log(self, status: str, value: str):
         """
         Responsible for creating logs for the bot that describes operations, status, or amount of data.
@@ -31,7 +31,7 @@ class RecordData:
         with open(f"{self.folder_location}/logs/bot_operation_{self.date}_{self.hour}.log", "w") as log_file:
             log_file.write("\n".join(self.full_log_txt))
 
-    def save_csv(self, restaurants: list, detailed_restaurants: list, rating_restaurants: list):
+    def save_csv(self, restaurants, detailed_restaurants, comments):
         """
         Collect all data and convert to csv files.
         """
@@ -42,7 +42,7 @@ class RecordData:
         data_location = {
             "restaurants.csv": restaurants,
             "restaurant_details.csv": detailed_restaurants,
-            "restaurant_comments.csv": rating_restaurants
+            "restaurant_comments.csv": comments
         }
 
         # Iterate through data and save into csv

@@ -23,7 +23,6 @@ load_dotenv()
 
 class GatherData:
 
-
     hour = datetime.datetime.now().strftime('%H:%M:%S')
     id = 1
     all_log_txt = []
@@ -110,45 +109,19 @@ class GatherData:
 
             for resto in resto_block:
                 try:
-                    # From main Div
-                    lat = resto.get('data-lat')
-                    lon = resto.get('data-lon')
+                    # Get cover content and return unique page link
+                    unique_page = scrape_frame.cover_content(resto, self.id)
 
-                    # From link
-                    link = resto.find_all('a')
-                    resto_link = link[2]
-                    unique_page = resto_link.get('href')
-                    raw_name = resto_link.text.split()
-                    name = " ".join(raw_name)
-
-                    # From hash tag
-                    hash_div = resto.find('div', class_='color-gray mb5 lh-normal search-cuisine-box')
-                    # Skip if there is no hash tag
-                    if hash_div != None:
-                        hash_elements = hash_div.find_all('a')
-
-                        hash_tags = []
-                        for hash in hash_elements:
-                            hash_tags.append(hash.text.strip())
-                #################### RECORD ####################
-                    record.restaurants.append(
-                        {
-                            "id": self.id,
-                            "name": name,
-                            "latitude": lat,
-                            "longitude": lon,
-                            "hash_tags": ",".join(hash_tags),
-                            "unique_page": unique_page
-                        }
-                    )
-
-                    record.create_log('INFO', f'#{len(record.restaurants)} - {record.restaurants[-1]["name"]} recorded')
-
-                    # Save file to csv from individual page
+                    # Go to unique page details to get more info
                     self.driver.get(unique_page)
                     time.sleep(3)
-                    record.save_csv(scrape_frame.individual_content(self.driver.page_source, self.id))
+                    all_info = scrape_frame.individual_content(self.driver.page_source, self.id)
 
+                    # Store to CSV
+                    record.save_csv(*all_info)
+                    record.create_log('INFO', f'#{len(scrape_frame.restaurants)} - {scrape_frame.restaurants[-1]["name"]} recorded')
+
+                    #Prepare for next loop
                     self.id += 1
                     # Stop if reached the last page
                     if page_num == max_page+ 1:
@@ -172,7 +145,6 @@ class GatherData:
             for page in pages:
                 execute_scrape(page)
 
-        self.record_data()
 
     def get_detailed_page(self, link, id_key):
 
