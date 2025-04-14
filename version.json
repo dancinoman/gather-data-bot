@@ -1,8 +1,8 @@
 {
   "major": 1,
-  "minor": 2,
-  "patch": 3,
+  "minor": 3,
+  "patch": 4,
   "release": "alpha",
-  "date": "2025-01-10",
+  "date": "2025-04-14",
   "description": "Initial release of the bot.(check readme for more details)"
 }

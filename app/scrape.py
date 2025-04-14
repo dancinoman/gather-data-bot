@@ -107,9 +107,10 @@ class Scrape:
         for cus_rating in customer_rating:
             self.comments.append({
                 "id": id,
-                "rating": cus_rating.find("span", "icon-box wider ratings border-good icon-dark icon-circle text-thick").text,
+                "rating": cus_rating.find("div", "pull-right").find("span").text.strip(),
+
                 "text": cus_rating.find("p", "mt20 mb20 reviews-desc").text.strip(),
-                "date": cus_rating.find("span", "review-date").text,
+                "date": cus_rating.find("span", "review-date").text.strip(),
                 "average_rating": average_rating,
                 'amount_of_rating': amount_of_rating
             })
