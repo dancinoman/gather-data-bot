@@ -1,18 +1,100 @@
 
+# Basic imports
 from bs4 import BeautifulSoup
 import time
 import re
-#TODO fix the errors within Scrape class
+import traceback
+
+# Selenium imports
+from selenium import webdriver
+
+# Import classes from folder
+from app.record_data import RecordData
 
 class Scrape:
-    def __init__(self):
 
+    def __init__(self, website_address: str, folder_location: str):
+        self.id = 1
+        self.website_address = website_address
+        self.folder_location = folder_location
+        self.driver = webdriver.Chrome()
         self.restaurants = []
         self.detailed_restaurants = []
         self.comments = []
 
+    def get_page(self, min_page: int, max_page: int, pages = None):
+        """
+        Get the data page by page.
 
-    def cover_content(self, resto, id):
+        Args:
+            min_page(int): The minimum page number to start scraping from.
+            max_page(int): The maximum page number to stop scraping at.
+            pages(int, None): A list of specific page numbers to scrape.
+        """
+        # Calling classes
+        record = RecordData(self.folder_location)
+
+        def execute_scrape(page_num):
+
+            # Start scraping content to the instruction page
+            web_link = self.website_address + f"&page={page_num}#{page_num}"
+            self.driver.get(web_link)
+            time.sleep(3)
+
+            #Using beautiful soup to get the list of restaurants
+            soup = BeautifulSoup(self.driver.page_source, 'html.parser')
+            resto_block = soup.find_all("div", class_='search-result')
+
+            record.create_log('INFO', f'Starting to fetch on page {page_num}')
+
+            # Scrape all content block
+
+            for resto in resto_block:
+                try:
+                    # Get cover content and return unique page link
+                    unique_page = self.cover_content(resto, self.id)
+
+                    # Go to unique page details to get more info
+                    self.driver.get(unique_page)
+                    time.sleep(3)
+                    all_info = self.individual_content(self.driver.page_source, self.id)
+
+                    # Store to CSV
+                    record.save_csv(*all_info)
+                    record.create_log('INFO', f'#{len(self.restaurants)} - {self.restaurants[-1]["name"]} recorded')
+
+                    #Prepare for next loop
+                    self.id += 1
+                    # Stop if reached the last page
+                    if page_num == max_page+ 1:
+                        record.create_log('INFO', "Bot's task completed")
+                        break
+
+                except Exception:
+                    full_trace = traceback.format_exc()
+                    record.create_log('ERROR', full_trace)
+                    record.create_log('INFO', f"Got issue with id: {self.id}")
+                    self.id += 1
+                    continue
+
+        # Execute a range or list of page
+        if max_page != 0:
+
+            for page_num in range(min_page, max_page):
+                execute_scrape(page_num)
+
+        elif pages is not None:
+            for page in pages:
+                execute_scrape(page)
+
+    def cover_content(self, resto: BeautifulSoup, id: int):
+        """
+        Get the content on search page.
+
+        Args:
+            resto(BeautifulSoup.find(<content>)): The restaurant block to scrape.
+            id(int): The unique ID of the restaurant.
+        """
         # From main Div
         lat = resto.get('data-lat')
         lon = resto.get('data-lon')
@@ -46,9 +128,13 @@ class Scrape:
 
         return unique_page
 
-    def individual_content(self, page_source, id):
+    def individual_content(self, page_source: webdriver, id: int):
         """
         Scrapes individual restaurant pages.
+
+        Args:
+            page_source(webdriver): The page source of the restaurant.
+            id(int): The unique ID of the restaurant.
         """
 
         # Get page soup
