@@ -4,9 +4,16 @@ from bs4 import BeautifulSoup
 import time
 import re
 import traceback
+import random
 
 # Selenium imports
 from selenium import webdriver
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
+import tempfile
+import os
 
 # Import classes from folder
 from app.record_data import RecordData
@@ -17,10 +24,48 @@ class Scrape:
         self.id = 1
         self.website_address = website_address
         self.folder_location = folder_location
-        self.driver = webdriver.Chrome()
         self.restaurants = []
         self.detailed_restaurants = []
         self.comments = []
+
+        # Chrome options
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+
+        # Create a temporary directory for user data
+        self.user_data_dir = tempfile.mkdtemp()
+        chrome_options.add_argument(f"--user-data-dir={self.user_data_dir}")
+        chrome_options.add_argument("--profile-directory=Default")
+
+        service = ChromeService(ChromeDriverManager().install())
+
+        self.driver = webdriver.Chrome(service=service, options=chrome_options)
+        self.driver.implicitly_wait(10)  # Wait for elements to load
+
+    def get_summary(self):
+        """
+        Get the summary of the page before scraping.
+        Returns:
+            num_restults(int): The number of total info to scrape.
+            num_pages(int): The number of pages available for scraping.
+        """
+         # Initializing web driver
+        self.driver.get(self.website_address)
+        time.sleep(random.uniform(1, 3))
+
+        # Initiate soup
+        soup = BeautifulSoup(self.driver.page_source, 'html.parser')
+        print(soup.prettify)
+        # Track number of results
+        num_result_block = soup.find("a", id="tab-restaurants-active")
+        num_restults = num_result_block.find("span").text.replace("(", "").replace(")","")
+
+        # Track number of pages
+        num_pages = soup.find("div", class_="mb0 mt40 color-dark bold fs-16 text-center p10").text.split()[-1].strip()
+
+        return num_restults, num_pages
 
     def get_page(self, min_page: int, max_page: int, pages = None):
         """

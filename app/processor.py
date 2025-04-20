@@ -7,8 +7,6 @@ import json
 
 # BeautifulSoup
 from bs4 import BeautifulSoup
-# Selenium imports
-from selenium import webdriver
 
 # Import classes from folder
 from app.record_data import RecordData
@@ -22,7 +20,6 @@ class Processor:
     def __init__(self, website_address: str, folder_location: str):
         self.website_address = website_address
         self.folder_location = folder_location
-        self.driver = webdriver.Chrome()
 
     def initialize_gathering(self, *args):
         """
@@ -48,18 +45,9 @@ class Processor:
                 record.create_log('INFO', f'Version: {description}')
 
             record.create_log('INFO', 'Page is loading...')
-            # Initializing web driver
-            self.driver.get(self.website_address)
-            time.sleep(3)
 
-            # Initiate soup
-            soup = BeautifulSoup(self.driver.page_source, 'html.parser')
-            # Track number of results
-            num_result_block = soup.find("a", id="tab-restaurants-active")
-            num_restults = num_result_block.find("span").text.replace("(", "").replace(")","")
+            num_restults, num_pages = scrape.get_summary()
 
-            # Track number of pages
-            num_pages = soup.find("div", class_="mb0 mt40 color-dark bold fs-16 text-center p10").text.split()[-1].strip()
             # Saving infon into log
             record.create_log('INFO', 'Started')
             record.create_log('INFO' , f'Number of result(s) for scraping {num_restults}')
