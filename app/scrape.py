@@ -18,6 +18,7 @@ import os
 # Import classes from folder
 from app.record_data import RecordData
 
+#TODO : fix --headless that may cause the issue with docker
 class Scrape:
 
     def __init__(self, website_address: str, folder_location: str):
