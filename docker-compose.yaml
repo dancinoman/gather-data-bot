@@ -3,7 +3,7 @@ services:
   web:
     image: nginx:latest
     container_name: gather-bot-app  
-      - "80:80"
+
   db:
     image: postgres:13
     container_name: gather-bot-db   
