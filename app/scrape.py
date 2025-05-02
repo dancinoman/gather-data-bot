@@ -31,7 +31,7 @@ class Scrape:
 
         # Chrome options
         chrome_options = Options()
-        chrome_options.add_argument("--headless")
+        #dochrome_options.add_argument("--headless")
         chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument("--disable-dev-shm-usage")
 
@@ -58,7 +58,7 @@ class Scrape:
 
         # Initiate soup
         soup = BeautifulSoup(self.driver.page_source, 'html.parser')
-        print(soup.prettify)
+
         # Track number of results
         num_result_block = soup.find("a", id="tab-restaurants-active")
         num_restults = num_result_block.find("span").text.replace("(", "").replace(")","")
