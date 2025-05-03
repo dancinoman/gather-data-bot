@@ -2,7 +2,7 @@
 FROM python:3.11-slim
 
 # Set the working directory in the container
-WORKDIR /app
+WORKDIR /
 
 # Install necessary dependencies for Chrome
 RUN apt-get update && apt-get install -y wget gnupg ca-certificates
