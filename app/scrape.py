@@ -1,9 +1,11 @@
 
 # Basic imports
+import tempfile
 from bs4 import BeautifulSoup
 import time
 import re
 import traceback
+import shutil
 import random
 
 # Selenium imports
@@ -12,8 +14,9 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
-import tempfile
-import os
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 # Import classes from folder
 from app.record_data import RecordData
@@ -31,7 +34,7 @@ class Scrape:
 
         # Chrome options
         chrome_options = Options()
-        #dochrome_options.add_argument("--headless")
+        chrome_options.add_argument("--headless=chrome")
         chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument("--disable-dev-shm-usage")
 
@@ -54,7 +57,10 @@ class Scrape:
         """
          # Initializing web driver
         self.driver.get(self.website_address)
-        time.sleep(random.uniform(1, 3))
+        # Wait for the page to load with delay
+        WebDriverWait(self.driver, 15).until(
+            EC.presence_of_element_located((By.XPATH, '//a[contains(@id, "tab-restaurants")]'))
+        )
 
         # Initiate soup
         soup = BeautifulSoup(self.driver.page_source, 'html.parser')
@@ -111,9 +117,14 @@ class Scrape:
 
                     #Prepare for next loop
                     self.id += 1
+
                     # Stop if reached the last page
                     if page_num == max_page+ 1:
                         record.create_log('INFO', "Bot's task completed")
+
+                        # Docker stop webscraping
+                        self.driver.quit()
+                        shutil.rmtree(self.user_data_dir, ignore_errors=True)
                         break
 
                 except Exception:

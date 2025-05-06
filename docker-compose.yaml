@@ -6,6 +6,8 @@ services:
     container_name: gather-bot-app
     depends_on:
       - db
+    volumes:
+      - ./data:/app/data
 
   db:
     image: postgres:13
