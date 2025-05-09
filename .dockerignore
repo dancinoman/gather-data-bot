@@ -1,0 +1,8 @@
+__pycache__/
+.git
+.venv/
+venv/
+*.pyc
+
+# Ignore Debug file which is useless in docker
+debug.py

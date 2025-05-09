@@ -18,8 +18,8 @@ class RecordData:
         """
         Responsible for creating logs for the bot that describes operations, status, or amount of data.
         The logs are saved in an organized folder along with data collected to get easy tracking performance.
-        status: Status of the bot (INFO, ERROR, WARNING).
-        value: Value of the data collected or error message.
+            status: Status of the bot (INFO, ERROR, WARNING).
+            value: Value of the data collected or error message.
         """
         # Create readable log
         log_info = f"[{self.date} {self.hour}] {status}: {value}"

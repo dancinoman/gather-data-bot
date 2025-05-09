@@ -1,35 +1,86 @@
 
 # Basic imports
+import tempfile
 from bs4 import BeautifulSoup
 import time
 import re
 import traceback
+import shutil
+import random
 
 # Selenium imports
 from selenium import webdriver
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 # Import classes from folder
 from app.record_data import RecordData
 
+#TODO : fix --headless that may cause the issue with docker
 class Scrape:
 
     def __init__(self, website_address: str, folder_location: str):
         self.id = 1
         self.website_address = website_address
         self.folder_location = folder_location
-        self.driver = webdriver.Chrome()
         self.restaurants = []
         self.detailed_restaurants = []
         self.comments = []
 
-    def get_page(self, min_page: int, max_page: int, pages = None):
+        # Chrome options
+        chrome_options = Options()
+        chrome_options.add_argument("--headless=chrome")
+        chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+
+        # Create a temporary directory for user data
+        self.user_data_dir = tempfile.mkdtemp()
+        chrome_options.add_argument(f"--user-data-dir={self.user_data_dir}")
+        chrome_options.add_argument("--profile-directory=Default")
+
+        service = ChromeService(ChromeDriverManager().install())
+
+        self.driver = webdriver.Chrome(service=service, options=chrome_options)
+        self.driver.implicitly_wait(10)  # Wait for elements to load
+
+    def get_summary(self):
+        """
+        Get the summary of the page before scraping.
+        Returns:
+            num_restults(int): The number of total info to scrape.
+            num_pages(int): The number of pages available for scraping.
+        """
+         # Initializing web driver
+        self.driver.get(self.website_address)
+        # Wait for the page to load with delay
+        WebDriverWait(self.driver, 15).until(
+            EC.presence_of_element_located((By.XPATH, '//a[contains(@id, "tab-restaurants")]'))
+        )
+
+        # Initiate soup
+        soup = BeautifulSoup(self.driver.page_source, 'html.parser')
+
+        # Track number of results
+        num_result_block = soup.find("a", id="tab-restaurants-active")
+        num_restults = num_result_block.find("span").text.replace("(", "").replace(")","")
+
+        # Track number of pages
+        num_pages = soup.find("div", class_="mb0 mt40 color-dark bold fs-16 text-center p10").text.split()[-1].strip()
+
+        return num_restults, num_pages
+
+    def get_page(self, min_page: int, max_page: int):
         """
         Get the data page by page.
 
         Args:
             min_page(int): The minimum page number to start scraping from.
             max_page(int): The maximum page number to stop scraping at.
-            pages(int, None): A list of specific page numbers to scrape.
         """
         # Calling classes
         record = RecordData(self.folder_location)
@@ -65,9 +116,14 @@ class Scrape:
 
                     #Prepare for next loop
                     self.id += 1
+
                     # Stop if reached the last page
                     if page_num == max_page+ 1:
                         record.create_log('INFO', "Bot's task completed")
+
+                        # Docker stop webscraping
+                        self.driver.quit()
+                        shutil.rmtree(self.user_data_dir, ignore_errors=True)
                         break
 
                 except Exception:
@@ -82,10 +138,6 @@ class Scrape:
 
             for page_num in range(min_page, max_page):
                 execute_scrape(page_num)
-
-        elif pages is not None:
-            for page in pages:
-                execute_scrape(page)
 
     def cover_content(self, resto: BeautifulSoup, id: int):
         """
