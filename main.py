@@ -22,19 +22,50 @@ def method():
     
     Returns: string input from the user web scraping choice
     """
-    while True:
-        
-        try:
-            method_scrape = int( input("Choose method of webscraping ? \n(1) All\n(2) Number of pages\n(3) Range of pages\n(4) Specific page\n-->"))
+    def try_val(prompt, 
+                allow_range_check, 
+                allow_min_check, 
+                min_val = None, 
+                max_val = None):
+       
+        while True:
+            
+            try:
+                choice = int(input(prompt + "\n-->"))
 
-        except ValueError:
-            print("Please enter an integer...\n")
+                if allow_range_check:
+                    if choice < min_val or choice > max_val:
+                        print(f"Please choose between {min_val} and {max_val}...\n")
+                        continue
 
-        if method_scrape < 1 or method_scrape > 4:
-            print("Please choose between 1 and 4...")
-        else:
-        
+                if allow_min_check:
+                    if choice < min_val:
+                        print(f"Please choose an integer of {min_val} or greater")
+                        continue
+
+            except ValueError:
+                print("Please enter an integer...\n")
+                continue
+
+            return choice
+
+
+    method_scrape = try_val("Choose method of webscraping ? \n(1) All\n(2) Number of pages\n(3) Range of pages\n(4) Specific page", True, False, 1, 4)
+    
+    match method_scrape:
+        case 1:
+            return "all"
+        case 2:
+            return [1, try_val("Number of pages?", False, True, 1)]
+        case 3:
+            start_page= try_val("Starting page number?",False, True, 1)
+            end_page= try_val("Ending page number?",False, True, start_page)
+            return [start_page, end_page]
+        case 4:
+            return try_val("Which page to get?")
+            
+
         
     
-method()
-#processor.initialize_gathering(method())
+
+processor.initialize_gathering(method())

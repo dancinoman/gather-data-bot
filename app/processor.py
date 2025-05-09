@@ -60,15 +60,13 @@ class Processor:
                         scrape.get_page(1, int(num_pages) + 1)
 
                 if isinstance(item, (list, tuple)):
-                    if len(item) == 1:
-                        scrape.get_page(1, item[0])
-                    elif len(item) == 2:
+                    if len(item) == 2:
                         scrape.get_page(item[0], item[1] + 1)
                     else:
-                        scrape.get_page(0, 0, item)
+                        raise ValueError("Can only take 2 elements")
 
                 if isinstance(item, int):
-                    scrape.get_page(0 , 0, [item])
+                    scrape.get_page(item , item)
 
         except Exception:
             full_trace = traceback.format_exc()

@@ -74,14 +74,13 @@ class Scrape:
 
         return num_restults, num_pages
 
-    def get_page(self, min_page: int, max_page: int, pages = None):
+    def get_page(self, min_page: int, max_page: int):
         """
         Get the data page by page.
 
         Args:
             min_page(int): The minimum page number to start scraping from.
             max_page(int): The maximum page number to stop scraping at.
-            pages(int, None): A list of specific page numbers to scrape.
         """
         # Calling classes
         record = RecordData(self.folder_location)
@@ -139,10 +138,6 @@ class Scrape:
 
             for page_num in range(min_page, max_page):
                 execute_scrape(page_num)
-
-        elif pages is not None:
-            for page in pages:
-                execute_scrape(page)
 
     def cover_content(self, resto: BeautifulSoup, id: int):
         """
